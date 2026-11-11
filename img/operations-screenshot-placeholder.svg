@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Screenshot placeholder">
+  <rect width="1200" height="800" fill="#101b2b" />
+  <rect x="54" y="54" width="1092" height="692" rx="18" fill="#17283c" stroke="#00bcd4" stroke-opacity=".62" stroke-width="3" />
+  <rect x="86" y="92" width="1028" height="82" rx="10" fill="#203952" />
+  <circle cx="121" cy="133" r="10" fill="#00e5ff" />
+  <rect x="150" y="119" width="340" height="28" rx="8" fill="#b7c9d8" opacity=".8" />
+  <rect x="86" y="204" width="1028" height="56" rx="8" fill="#00a9bd" opacity=".35" />
+  <g fill="#d9e5ee" opacity=".78">
+    <rect x="106" y="220" width="180" height="18" rx="5" />
+    <rect x="320" y="220" width="154" height="18" rx="5" />
+    <rect x="510" y="220" width="180" height="18" rx="5" />
+    <rect x="728" y="220" width="150" height="18" rx="5" />
+    <rect x="914" y="220" width="156" height="18" rx="5" />
+  </g>
+  <g fill="#d9e5ee" opacity=".28">
+    <rect x="106" y="292" width="180" height="22" rx="5" />
+    <rect x="320" y="292" width="154" height="22" rx="5" />
+    <rect x="510" y="292" width="180" height="22" rx="5" />
+    <rect x="728" y="292" width="150" height="22" rx="5" />
+    <rect x="914" y="292" width="156" height="22" rx="5" />
+    <rect x="106" y="342" width="180" height="22" rx="5" />
+    <rect x="320" y="342" width="154" height="22" rx="5" />
+    <rect x="510" y="342" width="180" height="22" rx="5" />
+    <rect x="728" y="342" width="150" height="22" rx="5" />
+    <rect x="914" y="342" width="156" height="22" rx="5" />
+    <rect x="106" y="392" width="180" height="22" rx="5" />
+    <rect x="320" y="392" width="154" height="22" rx="5" />
+    <rect x="510" y="392" width="180" height="22" rx="5" />
+    <rect x="728" y="392" width="150" height="22" rx="5" />
+    <rect x="914" y="392" width="156" height="22" rx="5" />
+  </g>
+  <rect x="284" y="520" width="632" height="112" rx="14" fill="#101b2b" stroke="#00e5ff" stroke-opacity=".55" stroke-width="2" />
+  <text x="600" y="570" fill="#ffffff" font-family="Arial, sans-serif" font-size="24" text-anchor="middle">Replace image src with your screenshot</text>
+  <text x="600" y="610" fill="#9fb4c5" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">Workbook screenshot placeholder</text>
+</svg>

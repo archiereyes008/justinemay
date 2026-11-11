@@ -1,0 +1,198 @@
+.about-page .about-grid {
+  grid-template-columns: minmax(0, 1120px);
+  justify-content: center;
+}
+
+.about-page .encyclopedia-book {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(260px, 0.78fr) minmax(0, 1.22fr);
+  gap: 3px;
+  overflow: visible;
+  padding: 14px;
+  border: 1px solid rgba(255, 220, 143, 0.72);
+  border-radius: 22px;
+  background: linear-gradient(90deg, #5c347d, #e0b967 49.8%, #553074 50.2%, #301b50);
+  box-shadow: 0 30px 75px rgba(11, 4, 25, 0.42), 0 0 0 5px rgba(255, 220, 143, 0.08);
+  transform: none;
+}
+
+.about-page .encyclopedia-book:hover {
+  box-shadow: 0 30px 75px rgba(11, 4, 25, 0.42), 0 0 0 5px rgba(255, 220, 143, 0.08);
+}
+
+.about-page .encyclopedia-page {
+  position: relative;
+  min-width: 0;
+  padding: clamp(26px, 4vw, 48px);
+  overflow: hidden;
+  color: #30243c;
+  background:
+    radial-gradient(ellipse at 10% 12%, rgba(255, 255, 255, 0.75), transparent 45%),
+    repeating-linear-gradient(0deg, transparent 0, transparent 31px, rgba(89, 61, 93, 0.035) 32px),
+    #f6f0df;
+}
+
+.about-page .encyclopedia-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 12px 3px 3px 12px;
+  box-shadow: inset -18px 0 26px -28px rgba(28, 16, 40, 0.8);
+  text-align: center;
+}
+
+.about-page .encyclopedia-biography {
+  border-radius: 3px 12px 12px 3px;
+  box-shadow: inset 18px 0 26px -28px rgba(28, 16, 40, 0.8);
+}
+
+.about-page .encyclopedia-page-label {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 27px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(98, 68, 105, 0.25);
+  color: #735286;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.about-page .member-portrait {
+  width: min(230px, 78%);
+  height: auto;
+  aspect-ratio: 1;
+  margin: 8px 0 25px;
+  border: 7px solid #fffaf0;
+  border-radius: 50%;
+  box-shadow: 0 8px 24px rgba(51, 32, 63, 0.2), 0 0 0 1px rgba(112, 78, 123, 0.22);
+}
+
+.about-page .encyclopedia-profile h2,
+.about-page .about-profile-details h3 {
+  margin: 0;
+  color: #30243c;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+
+.about-page .encyclopedia-profile h2 {
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  line-height: 1.15;
+}
+
+.about-page .member-role {
+  margin-top: 12px;
+  color: #704b8c;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.about-page .encyclopedia-rule {
+  width: 56px;
+  height: 3px;
+  margin: 25px 0 14px;
+  border-radius: 2px;
+  background: #d3a53e;
+}
+
+.about-page .encyclopedia-caption {
+  max-width: 260px;
+  margin: 0;
+  color: #695d6e;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.96rem;
+  font-style: italic;
+  line-height: 1.65;
+}
+
+.about-page .about-profile-details {
+  max-width: 760px;
+  padding-bottom: 35px;
+  text-align: left;
+}
+
+.about-page .about-profile-details h3 {
+  margin-bottom: 18px;
+  font-size: clamp(1.8rem, 3vw, 2.35rem);
+  line-height: 1.15;
+}
+
+.about-page .about-profile-details p {
+  margin: 0 0 16px;
+  color: #4c4153;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  line-height: 1.78;
+}
+
+.about-page .about-profile-details strong {
+  color: #392649;
+}
+
+.about-page .about-profile-details .btn {
+  margin-top: 4px;
+  border-color: #76548e;
+  background: #76548e;
+  color: #fff;
+}
+
+.about-page .about-profile-details .btn:hover,
+.about-page .about-profile-details .btn:focus-visible {
+  border-color: #5e3d76;
+  background: #5e3d76;
+  color: #fff;
+}
+
+.about-page .encyclopedia-page-number {
+  position: absolute;
+  right: 28px;
+  bottom: 20px;
+  color: #8d7a91;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.82rem;
+}
+
+@media (max-width: 760px) {
+  .about-page .encyclopedia-book {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3px;
+    background: linear-gradient(180deg, #5c347d, #e0b967 49.8%, #553074 50.2%, #301b50);
+  }
+
+  .about-page .encyclopedia-profile {
+    border-radius: 12px 12px 3px 3px;
+    box-shadow: inset 0 -18px 26px -28px rgba(28, 16, 40, 0.8);
+  }
+
+  .about-page .encyclopedia-biography {
+    border-radius: 3px 3px 12px 12px;
+    box-shadow: inset 0 18px 26px -28px rgba(28, 16, 40, 0.8);
+  }
+}
+
+@media (max-width: 520px) {
+  .about-page .encyclopedia-book {
+    padding: 9px;
+    border-radius: 17px;
+  }
+
+  .about-page .encyclopedia-page {
+    padding: 25px 22px 40px;
+  }
+
+  .about-page .member-portrait {
+    width: min(210px, 78%);
+  }
+
+  .about-page .about-profile-details p {
+    font-size: 0.96rem;
+  }
+}

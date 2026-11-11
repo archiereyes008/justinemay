@@ -1,0 +1,121 @@
+.jm-footer {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  margin-top: auto;
+  padding: 30px 0 22px;
+  border-top: 1px solid rgba(0, 229, 255, 0.3);
+  background: #0c0821;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.jm-footer .container {
+  width: min(var(--container, 1200px), calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.jm-footer-top,
+.jm-footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.jm-footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.jm-footer-mark {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--jm-cyan, #00e5ff);
+  color: #0d1733;
+  font-size: 0.88rem;
+  font-weight: 900;
+}
+
+.jm-footer-brand strong,
+.jm-footer-brand small {
+  display: block;
+}
+
+.jm-footer-brand strong {
+  color: #fff;
+  font-size: 0.96rem;
+}
+
+.jm-footer-brand small {
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.78rem;
+}
+
+.jm-footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 26px;
+  color: rgba(255, 255, 255, 0.83);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.jm-footer-nav a,
+.jm-footer-bottom a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.jm-footer-nav a:hover,
+.jm-footer-nav a:focus-visible,
+.jm-footer-bottom a:hover,
+.jm-footer-bottom a:focus-visible {
+  color: var(--jm-cyan, #00e5ff);
+}
+
+.jm-footer-nav a:focus-visible,
+.jm-footer-bottom a:focus-visible,
+.jm-footer-brand:focus-visible {
+  outline: 2px solid var(--jm-cyan, #00e5ff);
+  outline-offset: 4px;
+}
+
+.jm-footer-bottom {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+  .jm-footer-top,
+  .jm-footer-bottom {
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .jm-footer-brand {
+    flex-direction: column;
+  }
+
+  .jm-footer-nav {
+    justify-content: center;
+    gap: 18px;
+  }
+
+  .jm-footer-bottom {
+    gap: 8px;
+    overflow-wrap: anywhere;
+  }
+}

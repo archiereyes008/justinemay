@@ -1,0 +1,63 @@
+.hero-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.hero-frame #logo-mark {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.hero-frame #logo-mark svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .hero-frame {
+    padding: 16px;
+  }
+
+  .hero-frame #logo-mark {
+    max-width: 330px;
+  }
+}
+
+/* Hidden only until the intro script initializes */
+#logo-mark.lm-pre svg {
+  visibility: hidden;
+}
+
+/* Clockwise gear rotation */
+#logo-mark.lm-spin #part-gear-spin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: lmSpin 19.2s linear infinite;
+}
+
+@keyframes lmSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Subtle idle throb when completed */
+#logo-mark.lm-throb {
+  animation: lmThrob 3.6s ease-in-out infinite;
+}
+
+@keyframes lmThrob {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 3px rgba(171, 59, 150, .08));
+  }
+  50% {
+    transform: scale(1.014);
+    filter: drop-shadow(0 0 11px rgba(171, 59, 150, .24));
+  }
+}
