@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A fictional inbox organization and automation sample for Harborview Realty.">
+    <title>Inbox Organization | Harborview Realty Sample</title>
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            --plum: #4a1a5c;
+            --deep: #351043;
+            --ink: #1c1530;
+            --muted: #625c70;
+            --line: #e7e2eb;
+            --lavender: #f4f1f8;
+            --purple: #75458a;
+            --orange: #d57a25;
+            --green: #30805d;
+            --blue: #3479a8;
+            --gray: #7a7d88;
+            --focus: #f5c96a
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        #bg-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: .85
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            min-width: 320px;
+            margin: 0;
+            background-color: #2a1b4a;
+            background-image: linear-gradient(135deg, rgb(0 0 0 / 45%) 0%, rgb(0 0 0 / 45%) 100%), linear-gradient(135deg, #3e3daf 0%, #f200b5 100%);
+            color: var(--ink);
+            line-height: 1.5
+        }
+
+        main {
+            display: flex;
+            flex: 1 0 auto;
+            flex-direction: column;
+            position: relative;
+            z-index: 1
+        }
+
+        button,
+        input {
+            font: inherit
+        }
+
+        button:focus-visible,
+        input:focus-visible,
+        a:focus-visible {
+            outline: 3px solid var(--focus);
+            outline-offset: 3px
+        }
+
+        .shell {
+            width: min(100%, 1224px);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+            padding: 38px 22px 30px
+        }
+
+        .btn {
+            display: inline-flex;
+            min-height: 52px;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: 1px solid transparent;
+            border-radius: 14px;
+            padding: 0 22px;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: .2s ease
+        }
+
+        .btn-secondary {
+            border-color: rgba(17, 43, 70, .12);
+            background: #fff;
+            color: #112b46
+        }
+
+        .case-study-back {
+            margin-bottom: 6px
+        }
+
+        .btn-secondary:hover,
+        .btn-secondary:focus-visible {
+            transform: translateY(-1px);
+            background: #eef4ff
+        }
+
+        .intro {
+            max-width: 850px;
+            margin-bottom: 25px;
+            color: #fff
+        }
+
+        .intro h1 {
+            margin: 13px 0 7px;
+            font-size: clamp(34px, 4vw, 46px);
+            line-height: 1.12
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            border-radius: 999px;
+            padding: 5px 11px;
+            background: #eef3ff;
+            color: #263757;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.4
+        }
+
+        .intro p {
+            max-width: 780px;
+            margin: 0;
+            color: #f0eaf5;
+            font-size: 16px;
+            line-height: 1.55
+        }
+
+        .intro .note {
+            margin-top: 9px;
+            color: #d9c9e1;
+            font-size: 12px
+        }
+
+        .drive {
+            display: grid;
+            min-height: 620px;
+            grid-template-columns: 245px minmax(0, 1fr);
+            overflow: hidden;
+            border-radius: 16px;
+            background: #fff;
+            box-shadow: 0 14px 34px #14081d24
+        }
+
+        .sidebar {
+            display: flex;
+            min-width: 0;
+            flex-direction: column;
+            gap: 25px;
+            border-right: 1px solid var(--line);
+            padding: 20px 12px 18px;
+            background: var(--lavender)
+        }
+
+        .side-title {
+            margin: 0 8px 8px;
+            color: #62576d;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .07em;
+            text-transform: uppercase
+        }
+
+        .folder-list {
+            display: grid;
+            gap: 2px
+        }
+
+        .folder-button,
+        .rules-button {
+            display: flex;
+            width: 100%;
+            min-width: 0;
+            min-height: 36px;
+            align-items: center;
+            gap: 9px;
+            border: 0;
+            border-radius: 7px;
+            padding: 6px 8px;
+            background: transparent;
+            color: var(--ink);
+            cursor: pointer;
+            text-align: left
+        }
+
+        .folder-button:hover,
+        .rules-button:hover {
+            background: #75458a14
+        }
+
+        .folder-button[aria-current=page],
+        .rules-button[aria-current=page] {
+            background: #e8dfee;
+            color: var(--deep);
+            font-weight: 700
+        }
+
+        .folder-button.sub {
+            padding-left: 27px
+        }
+
+        .folder-icon {
+            display: inline-flex;
+            width: 18px;
+            height: 16px;
+            flex: 0 0 18px
+        }
+
+        .folder-icon svg {
+            width: 18px;
+            height: 16px
+        }
+
+        .folder-name {
+            min-width: 0;
+            flex: 1;
+            overflow: hidden;
+            font-size: 12px;
+            text-overflow: ellipsis;
+            white-space: nowrap
+        }
+
+        .count {
+            flex: 0 0 auto;
+            color: #776f7e;
+            font-size: 10px
+        }
+
+        .rule-count {
+            display: grid;
+            width: 20px;
+            height: 20px;
+            place-items: center;
+            margin-left: auto;
+            border-radius: 50%;
+            background: #e4d9eb;
+            color: var(--plum);
+            font-size: 10px;
+            font-weight: 800
+        }
+
+        .rule-symbol {
+            color: var(--purple);
+            font-size: 17px
+        }
+
+        .main {
+            min-width: 0;
+            padding: 18px 20px 20px
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 17px
+        }
+
+        .search {
+            position: relative;
+            min-width: 190px;
+            flex: 1 1 260px
+        }
+
+        .search svg {
+            position: absolute;
+            top: 50%;
+            left: 11px;
+            width: 16px;
+            height: 16px;
+            color: #7a7282;
+            pointer-events: none;
+            transform: translateY(-50%)
+        }
+
+        .search input {
+            width: 100%;
+            min-height: 40px;
+            border: 1px solid #dcd5e1;
+            border-radius: 8px;
+            padding: 8px 12px 8px 36px;
+            background: #fff;
+            color: var(--ink);
+            font-size: 13px
+        }
+
+        .search input::placeholder {
+            color: #827b8a
+        }
+
+        .tool {
+            display: inline-flex;
+            min-height: 40px;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            border: 1px solid #dcd5e1;
+            border-radius: 8px;
+            padding: 7px 12px;
+            background: #fff;
+            color: #3d3347;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .16s
+        }
+
+        .tool:hover:not(:disabled) {
+            border-color: #a98bb5;
+            background: #faf7fc
+        }
+
+        .tool:disabled {
+            cursor: default;
+            opacity: .55
+        }
+
+        .tool.primary {
+            border-color: var(--plum);
+            background: var(--plum);
+            color: #fff
+        }
+
+        .tool.primary:hover:not(:disabled) {
+            border-color: var(--deep);
+            background: var(--deep)
+        }
+
+        .view {
+            min-width: 94px
+        }
+
+        .crumbs {
+            display: flex;
+            min-height: 25px;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 11px;
+            color: #766d7c;
+            font-size: 11px
+        }
+
+        .crumb {
+            border: 0;
+            padding: 0;
+            background: transparent;
+            color: var(--plum);
+            font-size: inherit;
+            font-weight: 650;
+            cursor: pointer
+        }
+
+        .crumb:hover {
+            text-decoration: underline
+        }
+
+        .crumb:disabled {
+            color: #766d7c;
+            cursor: default;
+            text-decoration: none
+        }
+
+        .slash {
+            color: #aaa2af
+        }
+
+        .status {
+            display: flex;
+            min-height: 30px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 10px;
+            color: #6d6574;
+            font-size: 11px
+        }
+
+        .status p {
+            margin: 0
+        }
+
+        .sort {
+            color: #827b8a
+        }
+
+        .success {
+            margin: 12px 0 0;
+            border: 1px solid #cbe4d3;
+            border-radius: 7px;
+            padding: 9px 11px;
+            background: #edf8f0;
+            color: #276344;
+            font-size: 12px;
+            line-height: 1.45
+        }
+
+        .success[hidden] {
+            display: none
+        }
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid var(--line);
+            border-radius: 10px
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left
+        }
+
+        .table th {
+            height: 38px;
+            border-bottom: 1px solid var(--line);
+            padding: 7px 9px;
+            color: #766d7c;
+            font-size: 10px;
+            font-weight: 750;
+            white-space: nowrap
+        }
+
+        .table td {
+            height: 48px;
+            border-bottom: 1px solid #f0edf2;
+            padding: 7px 9px;
+            color: #4f4758;
+            font-size: 11px;
+            vertical-align: middle
+        }
+
+        .table tbody tr:last-child td {
+            border-bottom: 0
+        }
+
+        .table tbody tr:hover {
+            background: #fbf9fc
+        }
+
+        .sorted {
+            background: #f5eff8
+        }
+
+        .sorted:hover {
+            background: #efe5f4
+        }
+
+        .name-cell {
+            display: flex;
+            min-width: 200px;
+            align-items: center;
+            gap: 9px;
+            color: var(--ink)
+        }
+
+        .mail-icon {
+            display: inline-grid;
+            width: 26px;
+            height: 26px;
+            flex: 0 0 26px;
+            place-items: center;
+            border-radius: 7px;
+            background: var(--lavender);
+            color: var(--purple)
+        }
+
+        .mail-icon svg {
+            width: 15px;
+            height: 15px
+        }
+
+        .file-name {
+            display: block;
+            overflow: hidden;
+            font-size: 11px;
+            font-weight: 700;
+            text-overflow: ellipsis
+        }
+
+        .mobile-sender {
+            display: none;
+            overflow: hidden;
+            margin-top: 2px;
+            color: #817987;
+            font-size: 10px;
+            text-overflow: ellipsis;
+            white-space: nowrap
+        }
+
+        .star {
+            color: #b87918;
+            font-size: 13px
+        }
+
+        .chip {
+            display: inline-flex;
+            min-height: 21px;
+            align-items: center;
+            border-radius: 999px;
+            padding: 3px 8px;
+            background: #efedf0;
+            color: #625d68;
+            font-size: 10px;
+            font-weight: 700;
+            white-space: nowrap
+        }
+
+        .lead {
+            background: #eee3f4;
+            color: #70418a
+        }
+
+        .listing {
+            background: #fff0df;
+            color: #995719
+        }
+
+        .transaction {
+            background: #e1f1e7;
+            color: #2e704b
+        }
+
+        .data {
+            background: #e0eef7;
+            color: #28668e
+        }
+
+        .newsletter {
+            background: #efedf0;
+            color: #625d68
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
+            gap: 10px
+        }
+
+        .card {
+            min-width: 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 13px;
+            background: #fff
+        }
+
+        .card.sorted {
+            border-color: #d8c5e1;
+            background: #f8f3fa
+        }
+
+        .card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 8px
+        }
+
+        .card .mail-icon {
+            margin-bottom: 10px
+        }
+
+        .card h3 {
+            margin: 0 0 8px;
+            color: var(--ink);
+            font-size: 12px;
+            line-height: 1.4;
+            overflow-wrap: anywhere
+        }
+
+        .card p {
+            margin: 3px 0;
+            color: #766d7c;
+            font-size: 10px;
+            line-height: 1.4;
+            overflow-wrap: anywhere
+        }
+
+        .folder-entry {
+            display: flex;
+            min-height: 48px;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #f0edf2;
+            padding: 8px 11px;
+            color: var(--ink);
+            font-size: 12px;
+            font-weight: 650;
+            cursor: pointer
+        }
+
+        .folder-entry:last-child {
+            border-bottom: 0
+        }
+
+        .folder-entry:hover,
+        .folder-entry:focus-visible {
+            background: #fbf9fc
+        }
+
+        .folder-entry .folder-icon {
+            width: 20px;
+            height: 18px;
+            flex-basis: 20px
+        }
+
+        .folder-entry .folder-icon svg {
+            width: 20px;
+            height: 18px
+        }
+
+        .folder-entry .folder-name {
+            font-size: 12px
+        }
+
+        .folder-entry .count {
+            margin-left: auto
+        }
+
+        .empty {
+            margin: 0;
+            padding: 40px 16px;
+            color: #776f7e;
+            font-size: 13px;
+            text-align: center
+        }
+
+        .rules {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 11px
+        }
+
+        .rule {
+            border: 1px solid var(--line);
+            border-left: 4px solid var(--purple);
+            border-radius: 10px;
+            padding: 14px 15px;
+            background: #fff
+        }
+
+        .rule.listing {
+            border-left-color: var(--orange)
+        }
+
+        .rule.transaction {
+            border-left-color: var(--green)
+        }
+
+        .rule.data {
+            border-left-color: var(--blue)
+        }
+
+        .rule.newsletter {
+            border-left-color: var(--gray)
+        }
+
+        .rule h3 {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin: 0 0 9px;
+            font-size: 13px
+        }
+
+        .number {
+            color: var(--purple);
+            font-size: 11px
+        }
+
+        .rule p {
+            margin: 5px 0 0;
+            color: #554c5c;
+            font-size: 11px;
+            line-height: 1.45
+        }
+
+        .rule p strong {
+            color: #786e7e;
+            font-size: 10px;
+            text-transform: uppercase
+        }
+
+        .footer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 8px;
+            margin-top: auto;
+            padding-top: 12px;
+            color: #827b8a;
+            font-size: 10px
+        }
+
+        .footer strong {
+            color: #564b5c
+        }
+
+        .shell>footer.footer {
+            width: 100%;
+            margin-top: auto;
+            border-top: 1px solid rgba(117, 69, 138, .2);
+            padding: 18px 0 0;
+            color: #625c70;
+            font-size: 12px;
+            line-height: 1.6
+        }
+
+        @media(max-width:900px) {
+            .drive {
+                grid-template-columns: 205px minmax(0, 1fr)
+            }
+
+            .main {
+                padding: 16px
+            }
+
+            .toolbar {
+                gap: 7px
+            }
+
+            .tool {
+                padding: 7px 9px
+            }
+        }
+
+        @media(max-width:700px) {
+            .shell {
+                padding: 26px 15px 24px
+            }
+
+            .drive {
+                grid-template-columns: minmax(0, 1fr)
+            }
+
+            .sidebar {
+                gap: 13px;
+                border-right: 0;
+                border-bottom: 1px solid var(--line);
+                padding: 13px
+            }
+
+            .sidebar .folder-list {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+
+            .folder-button.sub {
+                padding-left: 14px
+            }
+
+            .main {
+                padding: 14px
+            }
+
+            .toolbar {
+                align-items: stretch
+            }
+
+            .search {
+                flex-basis: 100%
+            }
+
+            .tool {
+                flex: 1 1 auto
+            }
+
+            .table th:nth-child(2),
+            .table td:nth-child(2),
+            .table th:nth-child(4),
+            .table td:nth-child(4),
+            .table th:nth-child(5),
+            .table td:nth-child(5) {
+                display: none
+            }
+
+            .mobile-sender {
+                display: block
+            }
+
+            .table td {
+                height: 54px
+            }
+
+            .rules {
+                grid-template-columns: minmax(0, 1fr)
+            }
+
+            .footer {
+                display: block;
+                line-height: 1.6
+            }
+        }
+
+        @media(max-width:420px) {
+            .shell {
+                padding-right: 11px;
+                padding-left: 11px
+            }
+
+            .sidebar .folder-list {
+                grid-template-columns: minmax(0, 1fr)
+            }
+
+            .tool {
+                font-size: 11px
+            }
+
+            .view {
+                min-width: 80px
+            }
+
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr))
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="css/footer.css" />
+</head>
+
+<body>
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+    <main class="shell">
+        <a class="btn btn-secondary case-study-back" href="portfolio.html?person=justine&amp;category=digital-workflow"
+            aria-label="Back to Digital Workflow Support projects">&#8592; Back to projects</a>
+        <header class="intro">
+            <span class="eyebrow">Real estate operations</span>
+            <h1>Inbox Organization</h1>
+            <p>Labels, filters, and folders for a busy real estate team. Leads, listings, transactions, and data alerts
+                are sorted automatically, so nothing important gets buried.</p>
+            <p class="note">Sample project for Harborview Realty (a fictional real estate brokerage). All names,
+                addresses, and messages are made up. Try it: press &quot;Run filters&quot; to sort the 9 unsorted
+                emails.</p>
+        </header>
+        <section class="drive" aria-label="Harborview Realty inbox file manager">
+            <aside class="sidebar" aria-label="Folders and automation">
+                <section>
+                    <h2 class="side-title">Folders</h2>
+                    <nav class="folder-list" id="folder-nav" aria-label="Email folders"></nav>
+                </section>
+                <section>
+                    <h2 class="side-title">Automation</h2><button class="rules-button" id="rules-button"
+                        type="button"><span class="rule-symbol" aria-hidden="true">&#9881;</span><span
+                            class="folder-name">Filter rules</span><span class="rule-count">7</span></button>
+                </section>
+            </aside>
+            <section class="main" aria-label="Folder contents">
+                <div class="toolbar"><label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" aria-hidden="true">
+                            <circle cx="11" cy="11" r="7" />
+                            <path d="m16 16 4 4" />
+                        </svg><input id="search-input" type="search" placeholder="Search all folders"
+                            aria-label="Search all folders"></label><button class="tool primary" id="run-filters"
+                        type="button">Run filters</button><button class="tool" id="reset-demo" type="button">Reset
+                        demo</button><button class="tool view" id="view-toggle" type="button" aria-pressed="false">Grid
+                        view</button></div>
+                <nav class="crumbs" id="breadcrumbs" aria-label="Breadcrumb"></nav>
+                <div class="status">
+                    <p id="status-message" aria-live="polite"></p><span class="sort" id="sort-label">Sorted by
+                        date</span>
+                </div>
+                <div id="contents" aria-live="polite"></div>
+                <p class="success" id="success-message" role="status" hidden></p>
+                <div class="footer"><span><strong>Harborview Realty</strong> · Fictional portfolio
+                        demo</span><span>Labels and filters update in this local demo only.</span></div>
+            </section>
+        </section>
+        <footer class="footer"><span><strong>Setup behind this:</strong> 15 folders, 5 labels, 7 filter rules, and a
+                Friday 10-minute check of Read Later and the data-alert folders.</span></footer>
+    </main>
+    <footer class="jm-footer">
+        <div class="container">
+            <div class="jm-footer-top">
+                <a href="index.html" class="jm-footer-brand">
+                    <span class="jm-footer-mark" aria-hidden="true">JM</span>
+                    <span><strong>Justine May Balbuena</strong><small>Smart Support. Creative Solutions. Better Workflows.</small></span>
+                </a>
+                <nav class="jm-footer-nav" aria-label="Footer navigation">
+                    <a href="index.html">Home</a>
+                    <a href="portfolio.html?person=justine">Portfolio</a>
+                    <a href="about.html">About Me</a>
+                </nav>
+            </div>
+            <div class="jm-footer-bottom">
+                <span>© 2026 Justine May Balbuena. All rights reserved.</span>
+                <a href="mailto:justinemaybalbuena23@gmail.com">justinemaybalbuena23@gmail.com</a>
+            </div>
+        </div>
+    </footer>
+    <script>
+        (() => {
+            const folders = [{ name: 'Inbox', color: '#7a7d88', path: ['Inbox'] }, { name: 'Leads', color: '#75458a', path: ['Leads'], children: ['Buyer Leads', 'Seller Leads'] }, { name: 'Listings', color: '#d57a25', path: ['Listings'], children: ['Active Listings', 'Pending & Sold'] }, { name: 'Transactions', color: '#30805d', path: ['Transactions'], children: ['Contracts & Disclosures', 'Closing & Escrow'] }, { name: 'Data Operations', color: '#3479a8', path: ['Data Operations'], children: ['MLS & Feed Alerts', 'CRM & Data Reports'] }, { name: 'Read Later', color: '#7a7d88', path: ['Read Later'] }, { name: 'Archive', color: '#7a7d88', path: ['Archive'] }];
+            const initialEmails = [
+                { id: 'u1', folder: ['Inbox'], sender: 'HomeFinder Leads', subject: 'Tour request: 42 Maple Grove Ln', date: 'Oct 21', label: '', sortedBy: 'None yet', unsorted: true, rule: 1, starred: false },
+                { id: 'u2', folder: ['Inbox'], sender: 'Rosa Delgado', subject: 'Home value request: Cedar Hollow', date: 'Oct 21', label: '', sortedBy: 'None yet', unsorted: true, rule: 2, starred: false },
+                { id: 'u3', folder: ['Inbox'], sender: 'Jordan Pike', subject: 'New listing: 118 Lakeshore Dr, photos ready', date: 'Oct 21', label: '', sortedBy: 'None yet', unsorted: true, rule: 3, starred: false },
+                { id: 'u4', folder: ['Inbox'], sender: 'Tessa Brandt', subject: 'Addendum signed: 77 Orchard Ct', date: 'Oct 20', label: '', sortedBy: 'None yet', unsorted: true, rule: 4, starred: false },
+                { id: 'u5', folder: ['Inbox'], sender: 'Keystone Title & Escrow', subject: 'Closing date confirmed: Nov 12', date: 'Oct 20', label: '', sortedBy: 'None yet', unsorted: true, rule: 5, starred: false },
+                { id: 'u6', folder: ['Inbox'], sender: 'MetroMLS Feed', subject: 'Sync failed: 14 listings missing photos', date: 'Oct 20', label: '', sortedBy: 'None yet', unsorted: true, rule: 6, starred: false },
+                { id: 'u7', folder: ['Inbox'], sender: 'DataSync Alerts', subject: 'Duplicate records found in CRM import', date: 'Oct 19', label: '', sortedBy: 'None yet', unsorted: true, rule: 6, starred: false },
+                { id: 'u8', folder: ['Inbox'], sender: 'Realty Weekly', subject: 'Market Pulse: October housing trends', date: 'Oct 19', label: '', sortedBy: 'None yet', unsorted: true, rule: 7, starred: false, body: 'Unsubscribe' },
+                { id: 'u9', folder: ['Inbox'], sender: 'HomeFinder Leads', subject: 'Tour request: 9 Birchwood Way', date: 'Oct 19', label: '', sortedBy: 'None yet', unsorted: true, rule: 1, starred: false },
+                { id: 's1', folder: ['Leads', 'Buyer Leads'], sender: 'Dana Whitfield', subject: 'Pre-approval letter attached', date: 'Oct 14', label: 'Lead', sortedBy: 'Rule 1', starred: true },
+                { id: 's2', folder: ['Leads', 'Seller Leads'], sender: 'Marco Silva', subject: 'Listing consult next Tuesday', date: 'Oct 13', label: 'Lead', sortedBy: 'Rule 2', starred: true },
+                { id: 's3', folder: ['Listings', 'Active Listings'], sender: 'Jordan Pike', subject: 'New listing: 9 Birchwood Way', date: 'Oct 12', label: 'Listing', sortedBy: 'Rule 3' },
+                { id: 's4', folder: ['Listings', 'Active Listings'], sender: 'Jordan Pike', subject: 'Open house this Sunday: 55 Elm St', date: 'Oct 9', label: 'Listing', sortedBy: 'Rule 3' },
+                { id: 's5', folder: ['Listings', 'Pending & Sold'], sender: 'Jordan Pike', subject: 'Price change: 20 Harbor Rd (pending)', date: 'Oct 6', label: 'Listing', sortedBy: 'Rule 3' },
+                { id: 's6', folder: ['Transactions', 'Contracts & Disclosures'], sender: 'Tessa Brandt', subject: 'Seller disclosure: 31 Willow Bend', date: 'Oct 8', label: 'Transaction', sortedBy: 'Rule 4' },
+                { id: 's7', folder: ['Transactions', 'Contracts & Disclosures'], sender: 'Tessa Brandt', subject: 'Counter-offer addendum: 9 Birchwood', date: 'Oct 7', label: 'Transaction', sortedBy: 'Rule 4' },
+                { id: 's8', folder: ['Transactions', 'Closing & Escrow'], sender: 'Keystone Title & Escrow', subject: 'Wire instructions verified', date: 'Oct 5', label: 'Transaction', sortedBy: 'Rule 5' },
+                { id: 's9', folder: ['Data Operations', 'MLS & Feed Alerts'], sender: 'MetroMLS Feed', subject: 'Weekly feed error report', date: 'Oct 16', label: 'Data', sortedBy: 'Rule 6' },
+                { id: 's10', folder: ['Data Operations', 'CRM & Data Reports'], sender: 'Alex (Data Ops)', subject: 'CRM export: Q3 leads cleaned (1,240 rows)', date: 'Oct 15', label: 'Data', sortedBy: 'Manual' },
+                { id: 's11', folder: ['Data Operations', 'CRM & Data Reports'], sender: 'Alex (Data Ops)', subject: 'Duplicate contacts merged: 86 records', date: 'Oct 11', label: 'Data', sortedBy: 'Manual' },
+                { id: 's12', folder: ['Read Later'], sender: 'Realty Weekly', subject: 'Realty Weekly: mortgage rate outlook', date: 'Oct 9', label: 'Newsletter', sortedBy: 'Rule 7' },
+                { id: 's13', folder: ['Archive'], sender: 'Keystone Title & Escrow', subject: 'Closing documents: 12 Pine St', date: 'Jun 12', label: 'Transaction', sortedBy: 'Rule 5' }];
+            const rules = [
+                { name: 'Buyer leads', color: 'lead', if: 'Sender is a lead portal, and subject contains “tour request” or “buyer”.', then: 'Label Lead, move to Leads / Buyer Leads, star it.' },
+                { name: 'Seller leads', color: 'lead', if: 'Subject contains “home value”, “sell my home”, or “listing consult”.', then: 'Label Lead, move to Leads / Seller Leads, star it.' },
+                { name: 'Listing updates', color: 'listing', if: 'Subject contains “new listing”, “price change”, or “open house”.', then: 'Label Listing, move to Listings / Active Listings.' },
+                { name: 'Contracts and disclosures', color: 'transaction', if: 'Subject contains “contract”, “disclosure”, or “addendum”.', then: 'Label Transaction, move to Transactions / Contracts & Disclosures.' },
+                { name: 'Title and escrow', color: 'transaction', if: 'Sender is the title or escrow company, or subject contains “closing”.', then: 'Label Transaction, move to Transactions / Closing & Escrow.' },
+                { name: 'Data alerts', color: 'data', if: 'Subject contains “sync failed”, “feed error”, or “duplicate records”.', then: 'Label Data, move to Data Operations / MLS & Feed Alerts.' },
+                { name: 'Newsletters', color: 'newsletter', if: 'Message contains “unsubscribe”.', then: 'Label Newsletter, skip the inbox, move to Read Later.' }];
+            let emails = cloneEmails(), selected = ['Inbox'], showRules = false, term = '', grid = false, ran = false, recent = new Set();
+            const nav = document.getElementById('folder-nav'), rulesButton = document.getElementById('rules-button'), search = document.getElementById('search-input'), runButton = document.getElementById('run-filters'), resetButton = document.getElementById('reset-demo'), viewButton = document.getElementById('view-toggle'), crumbs = document.getElementById('breadcrumbs'), status = document.getElementById('status-message'), sort = document.getElementById('sort-label'), success = document.getElementById('success-message'), contents = document.getElementById('contents');
+            function cloneEmails() { return initialEmails.map(e => ({ ...e, folder: [...e.folder] })) } function el(tag, cls = '', text) { const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n } function same(a, b) { return a.length === b.length && a.every((v, i) => v === b[i]) } function inside(e, p) { return p.every((v, i) => e.folder[i] === v) } function countChild(p, c) { return emails.filter(e => same(e.folder, [p, c])).length } function count(folder) { return folder.name === 'Inbox' ? emails.filter(e => e.unsorted && e.folder[0] === 'Inbox').length : emails.filter(e => inside(e, folder.path)).length }
+            function folderIcon(color) { const wrap = el('span', 'folder-icon'), svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'), p = document.createElementNS('http://www.w3.org/2000/svg', 'path'); svg.setAttribute('viewBox', '0 0 24 20'); svg.setAttribute('aria-hidden', 'true'); p.setAttribute('d', 'M2 4.5A2.5 2.5 0 0 1 4.5 2H9l2 2h8.5A2.5 2.5 0 0 1 22 6.5v9a2.5 2.5 0 0 1-2.5 2.5h-15A2.5 2.5 0 0 1 2 15.5z'); p.setAttribute('fill', color); svg.append(p); wrap.append(svg); return wrap } function mailIcon() { const wrap = el('span', 'mail-icon'), svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'), r = document.createElementNS('http://www.w3.org/2000/svg', 'rect'), p = document.createElementNS('http://www.w3.org/2000/svg', 'path'); svg.setAttribute('viewBox', '0 0 20 20'); svg.setAttribute('fill', 'none'); svg.setAttribute('stroke', 'currentColor'); svg.setAttribute('stroke-width', '1.6'); svg.setAttribute('aria-hidden', 'true'); r.setAttribute('x', '2.5'); r.setAttribute('y', '4'); r.setAttribute('width', '15'); r.setAttribute('height', '12'); r.setAttribute('rx', '2'); p.setAttribute('d', 'm3.5 5 6.5 5 6.5-5'); svg.append(r, p); wrap.append(svg); return wrap }
+            function openFolder(path) { selected = [...path]; showRules = false; term = ''; search.value = ''; render() } function renderSidebar() { nav.replaceChildren(); folders.forEach(f => { const b = el('button', 'folder-button'); b.type = 'button'; b.setAttribute('aria-current', !showRules && same(selected, f.path) ? 'page' : 'false'); b.append(folderIcon(f.color), el('span', 'folder-name', f.name), el('span', 'count', String(count(f)))); b.addEventListener('click', () => openFolder(f.path)); nav.append(b); f.children?.forEach(c => { const s = el('button', 'folder-button sub'); s.type = 'button'; s.setAttribute('aria-current', !showRules && same(selected, [f.name, c]) ? 'page' : 'false'); s.append(folderIcon(f.color), el('span', 'folder-name', c), el('span', 'count', String(countChild(f.name, c)))); s.addEventListener('click', () => openFolder([f.name, c])); nav.append(s) }) }); rulesButton.setAttribute('aria-current', showRules ? 'page' : 'false') }
+            function crumb(label, path, current) { const b = el('button', 'crumb', label); b.type = 'button'; b.disabled = current; if (current) b.setAttribute('aria-current', 'page'); else b.addEventListener('click', () => openFolder(path)); crumbs.append(b) } function renderCrumbs() { crumbs.replaceChildren(); crumb('My Inbox', ['Inbox'], !showRules && !term && same(selected, ['Inbox'])); if (showRules) { crumbs.append(el('span', 'slash', '/'), el('span', '', 'Filter rules')); return } if (term) { crumbs.append(el('span', 'slash', '/'), el('span', '', 'Search results')); return } selected.forEach((part, i) => { if (i === 0 && part === 'Inbox') return; crumbs.append(el('span', 'slash', '/')); crumb(part, selected.slice(0, i + 1), i === selected.length - 1) }) }
+            function chip(email) { const types = { Lead: 'lead', Listing: 'listing', Transaction: 'transaction', Data: 'data', Newsletter: 'newsletter' }; return el('span', `chip ${types[email.label] || ''}`, email.label || 'Unlabeled') } function entry(folder, parent) { const row = el('div', 'folder-entry'); row.tabIndex = 0; row.setAttribute('role', 'button'); const n = parent ? countChild(parent, folder.name) : count(folder); row.setAttribute('aria-label', `${folder.name}, ${n} messages`); row.append(folderIcon(folder.color), el('span', 'folder-name', folder.name), el('span', 'count', String(n))); const activate = () => openFolder(folder.path); row.addEventListener('click', activate); row.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate() } }); return row }
+            function fileRow(e) { const row = el('tr', `file-row${recent.has(e.id) ? ' sorted' : ''}`), nameCell = el('td'), name = el('div', 'name-cell'), detail = el('span'); name.append(mailIcon()); detail.append(el('span', 'file-name', e.subject)); if (e.starred) detail.append(el('span', 'star', ' ★')); detail.append(el('span', 'mobile-sender', e.sender)); name.append(detail); nameCell.append(name); const from = el('td', '', e.sender), label = el('td'), date = el('td', '', e.date), by = el('td', '', e.sortedBy); label.append(chip(e)); row.append(nameCell, from, label, date, by); return row }
+            function fileCard(e) { const c = el('article', `card${recent.has(e.id) ? ' sorted' : ''}`), top = el('div', 'card-top'); top.append(mailIcon(), chip(e)); const title = el('h3', '', `${e.starred ? '★ ' : ''}${e.subject}`); c.append(top, title, el('p', '', `From: ${e.sender}`), el('p', '', `${e.date} · Sorted by ${e.sortedBy}`)); return c }
+            function renderFiles(items) { if (!items.length) { contents.append(el('p', 'empty', term ? 'No messages match your search.' : 'This folder is empty.')); return } if (grid) { const g = el('div', 'grid'); items.forEach(e => g.append(fileCard(e))); contents.append(g); return } const wrap = el('div', 'table-wrap'), table = el('table', 'table'), head = document.createElement('thead'), hr = document.createElement('tr'), body = document.createElement('tbody');['Name', 'From', 'Label', 'Date', 'Sorted by'].forEach(t => hr.append(el('th', '', t))); head.append(hr); items.forEach(e => body.append(fileRow(e))); table.append(head, body); wrap.append(table); contents.append(wrap) }
+            function renderRules() { const gridNode = el('div', 'rules'); rules.forEach((r, i) => { const card = el('article', `rule ${r.color}`), h = el('h3'); h.append(el('span', 'number', String(i + 1)), document.createTextNode(r.name)); const ifp = el('p'), thenp = el('p'); ifp.append(el('strong', '', 'If: '), document.createTextNode(r.if)); thenp.append(el('strong', '', 'Then: '), document.createTextNode(r.then)); card.append(h, ifp, thenp); gridNode.append(card) }); contents.append(gridNode) }
+            function render() { renderSidebar(); renderCrumbs(); contents.replaceChildren(); success.hidden = true; runButton.disabled = ran; viewButton.textContent = grid ? 'List view' : 'Grid view'; viewButton.setAttribute('aria-pressed', String(grid)); sort.textContent = grid ? 'Grid view' : 'Sorted by date'; if (showRules) { status.textContent = '7 filter rules'; sort.textContent = 'Automation'; renderRules(); return } if (term) { const q = term.toLowerCase(), found = emails.filter(e => `${e.subject} ${e.sender} ${e.label} ${e.folder.join(' ')} ${e.date} ${e.body || ''}`.toLowerCase().includes(q)); status.textContent = `${found.length} message${found.length === 1 ? '' : 's'} across all folders`; renderFiles(found); return } const parent = folders.find(f => same(f.path, selected)), children = parent?.children || []; children.forEach(c => contents.append(entry({ name: c, color: parent.color, path: [parent.name, c] }, parent.name))); let visible = emails.filter(e => same(e.folder, selected)); if (same(selected, ['Inbox'])) visible = visible.filter(e => e.unsorted); const total = emails.filter(e => inside(e, selected)).length; status.textContent = same(selected, ['Inbox']) ? `${visible.length} unsorted message${visible.length === 1 ? '' : 's'} in Inbox` : `${total} message${total === 1 ? '' : 's'} in ${selected[selected.length - 1]}`; if (visible.length) renderFiles(visible); else if (!children.length) contents.append(el('p', 'empty', 'This folder is empty.')); if (ran && same(selected, ['Inbox'])) { status.textContent = 'Inbox is clear: 0 unsorted messages'; success.textContent = '9 emails labeled and sorted by 7 filter rules. Open Leads, Transactions, or Data Operations to see them.'; success.hidden = false } }
+            function runFilters() { if (ran) return; const destinations = { 1: ['Leads', 'Buyer Leads'], 2: ['Leads', 'Seller Leads'], 3: ['Listings', 'Active Listings'], 4: ['Transactions', 'Contracts & Disclosures'], 5: ['Transactions', 'Closing & Escrow'], 6: ['Data Operations', 'MLS & Feed Alerts'], 7: ['Read Later'] }, labels = { 1: 'Lead', 2: 'Lead', 3: 'Listing', 4: 'Transaction', 5: 'Transaction', 6: 'Data', 7: 'Newsletter' }; recent = new Set(); emails.forEach(e => { if (!e.unsorted) return; e.folder = [...destinations[e.rule]]; e.label = labels[e.rule]; e.sortedBy = `Rule ${e.rule}`; e.unsorted = false; e.starred = e.rule === 1 || e.rule === 2; recent.add(e.id) }); ran = true; selected = ['Inbox']; showRules = false; term = ''; search.value = ''; render() }
+            function reset() { emails = cloneEmails(); selected = ['Inbox']; showRules = false; term = ''; search.value = ''; grid = false; ran = false; recent = new Set(); render() }
+            rulesButton.addEventListener('click', () => { showRules = true; term = ''; search.value = ''; render() }); runButton.addEventListener('click', runFilters); resetButton.addEventListener('click', reset); viewButton.addEventListener('click', () => { grid = !grid; render() }); search.addEventListener('input', () => { term = search.value.trim(); showRules = false; render(); search.focus() }); render();
+        })();
+    </script>
+    <script>
+        (() => {
+            const canvas = document.getElementById('bg-canvas');
+            const context = canvas.getContext('2d');
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const motionScale = reduceMotion ? 0.35 : 1;
+            const particles = [];
+            const particleCount = 45;
+            const connectDistance = 130;
+            const brandBlue = '96, 165, 255';
+            const brandPink = '255, 105, 220';
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            for (let index = 0; index < particleCount; index += 1) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 2 + 1,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    color: Math.random() > 0.5 ? brandBlue : brandPink
+                });
+            }
+
+            function animate() {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach((particle, index) => {
+                    particle.x += particle.vx * motionScale;
+                    particle.y += particle.vy * motionScale;
+                    if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
+                    if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
+
+                    context.beginPath();
+                    context.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                    context.fillStyle = `rgba(${particle.color}, 0.85)`;
+                    context.fill();
+
+                    for (let nextIndex = index + 1; nextIndex < particles.length; nextIndex += 1) {
+                        const nextParticle = particles[nextIndex];
+                        const distance = Math.hypot(particle.x - nextParticle.x, particle.y - nextParticle.y);
+                        if (distance < connectDistance) {
+                            context.beginPath();
+                            context.moveTo(particle.x, particle.y);
+                            context.lineTo(nextParticle.x, nextParticle.y);
+                            context.strokeStyle = `rgba(${brandPink}, ${(1 - distance / connectDistance) * 0.3})`;
+                            context.stroke();
+                        }
+                    }
+                });
+                window.requestAnimationFrame(animate);
+            }
+
+            animate();
+        })();
+    </script>
+</body>
+
+</html>

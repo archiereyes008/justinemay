@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfolio of Justine May Balbuena." />
+  <title>Portfolio | Justine May Balbuena</title>
+  <link rel="icon" type="image/svg+xml" href="img/jm-favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/jm-brand.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+</head>
+
+<body>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand" aria-label="Justine May home">
+        <span class="brand-logo jm-brand-mark" aria-hidden="true">JM</span>
+        <span class="brand-text jm-brand-text">Justine May</span>
+      </a>
+
+      <button class="mobile-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+      </button>
+
+      <nav aria-label="Main navigation">
+        <ul class="main-nav">
+          <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="portfolio.html?person=justine" class="nav-link" aria-current="page">Portfolio</a></li>
+          <li class="nav-item"><a href="about.html" class="nav-link">About Me</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="portfolio-root"></main>
+
+  <script>
+    const portfolioData = {
+      arnold: {
+        name: 'Arnold Christian Parra',
+        title: 'Creative portfolio',
+        intro: 'Videos, graphic design, and multimedia work created to communicate clearly and professionally.',
+        categories: [
+          {
+            id: 'videos',
+            title: 'Videos',
+            tag: 'Multimedia storytelling',
+            image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80',
+            description: 'Short-form edits, campaign visuals, and polished digital storytelling work.',
+            moreWorksUrl: '#', // <-- Put your external link or Drive/channel URL here
+            projects: [
+              {
+                title: 'Brand Story Promo',
+                description: 'A short-form promotional concept designed to deliver a clear message with strong pacing and visual rhythm.',
+                tools: ['Capcut Pro', 'Motion Graphics', 'Sound Design'],
+                video: 'vids/kikiSW.mp4'
+              },
+              {
+                title: 'Social Campaign Cutdown',
+                description: 'A fast-paced visual edit intended for social channels and quick digital consumption.',
+                tools: ['Capcut Pro', 'Sound Design', 'Color Grading'],
+                video: 'vids/darrenSW.mp4'
+              },
+              {
+                title: '415k views Instagram Reel',
+                description: 'A presentation-ready reel concept built for modern digital promotion and campaign storytelling.',
+                tools: ['Capcut Pro', 'Sound Design', 'Color Grading'],
+                video: 'vids/djdarren.mp4'
+              },
+              {
+                title: 'Youtube Documentary Intro',
+                description: 'A presentation-ready reel concept built for modern digital promotion and campaign storytelling.',
+                tools: ['Capcut Pro', 'Sound Design', 'Documentary'],
+                video: 'vids/comuna 13 intro.mp4'
+              }
+            ]
+          },
+          {
+            id: 'graphic-design',
+            title: 'Graphic Design',
+            tag: 'Brand visuals',
+            image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80',
+            description: 'Visual design work for branding, campaign assets, and digital presentation needs.',
+            moreWorksUrl: '#', // <-- Put your external link or portfolio Drive URL here
+            projects: [
+              {
+                title: 'Social Media Template Set',
+                description: 'A clean template set designed to keep social content consistent and visually organized across stories, promotional announcements, gift certificates, and carousel graphics.',
+                tools: ['Branding', 'Design', 'Layout', 'Canva'],
+                photos: [
+                  'img/carousel.png',
+                  'img/carousel2.png',
+                  'img/giftcert.png',
+                  'img/story.png'
+                ]
+              },
+              {
+                title: 'Thumbnail Layout Concept',
+                description: 'Visual thumbnails designed to improve attention and support stronger digital content presentation.',
+                tools: ['Canva', 'Design', 'Branding'],
+                photos: [
+                  'img/thumbnail1.png',
+                  'img/thumbnail2.png',
+                  'img/thumbnail3.png',
+                  'img/thumbnail4.png'
+                ]
+              }
+            ]
+          },
+          {
+            id: 'digital-media',
+            title: 'Digital Media',
+            tag: 'Creative production',
+            image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80',
+            description: 'Creative production support that combines design, media planning, and polished output.',
+            projects: [
+              {
+                title: 'Content Pack Concept',
+                image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80',
+                description: 'A sample delivery package combining digital assets, creative planning, and visual support.',
+                tools: ['Editing', 'Design', 'Planning'],
+                video: ''
+              },
+              {
+                title: 'Campaign Asset Set',
+                image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80',
+                description: 'Placeholder digital assets created for campaign support and shorter content creation cycles.',
+                tools: ['Adobe Suite', 'Social Design'],
+                video: ''
+              }
+            ]
+          },
+          {
+            id: 'creative-support',
+            title: 'Creative Support',
+            tag: 'Practical execution',
+            image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80',
+            description: 'Hands-on support for preparing content, organizing assets, and keeping creative work moving.',
+            projects: [
+              {
+                title: 'Mini Campaign Workflow',
+                image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80',
+                description: 'A placeholder workflow built to support planning, organizing, and delivering digital assets on time.',
+                tools: ['Planning', 'Creative Ops', 'Delivery'],
+                video: ''
+              },
+              {
+                title: 'Visual Brief Template',
+                image: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=1200&q=80',
+                description: 'A reusable brief for documenting creative direction, asset needs, and output requirements.',
+                tools: ['Documentation', 'Creative Process'],
+                video: ''
+              }
+            ]
+          }
+        ]
+      },
+      justine: {
+        name: 'Justine May Balbuena',
+        title: 'Digital solutions portfolio',
+        intro: 'Website projects, analytics, administration, and structured digital support designed to be practical and useful.',
+        categories: [
+          {
+            id: 'website-projects',
+            title: 'Website Projects',
+            tag: 'Responsive builds',
+            image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=1200&q=80',
+            description: 'Web solutions built for business visibility, clarity, and lead generation goals.',
+            projects: [
+              {
+                title: 'Solar Lead Funnel Built in GoHighLevel: Qualification, Booking & Automations',
+                image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+                description: 'This is a sample funnel I built inside GoHighLevel to show how a home services business, in this case solar, can turn website visitors into booked appointments automatically. It includes a landing page with a built-in qualification survey, automated emails that separate qualified and unqualified leads, an online booking calendar with Zoom meeting links, and workflows that send confirmations and keep every lead organized in the CRM. Everything runs on its own, so the business spends less time chasing leads and more time on the ones that are ready to talk. If you’d like a funnel like this built for your business, get in touch.',
+                descriptionPreview: 'This is a sample funnel I built inside GoHighLevel to show how a home services business, in this case solar, can turn website visitors into booked appointments automatically.',
+                descriptionMore: 'It includes a landing page with a built-in qualification survey, automated emails that separate qualified and unqualified leads, an online booking calendar with Zoom meeting links, and workflows that send confirmations and keep every lead organized in the CRM. Everything runs on its own, so the business spends less time chasing leads and more time on the ones that are ready to talk. If you’d like a funnel like this built for your business, get in touch.',
+                tools: ['GoHighLevel', 'Workflows', 'Email Automation'],
+                video: 'https://www.youtube.com/embed/ltdk_BIHvXg'
+              },
+              {
+                title: 'Church Website for Pure Word Believers Tabernacle | Responsive Multi-Page Site',
+                image: 'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=1200&q=80',
+                description: 'A multi-page website I designed and built for Pure Word Believers Tabernacle in Tuguegarao City, Cagayan. It includes a home page with a live countdown to the next gathering, a sermon archive with a latest-message player, mission and event pages, a watch page, an about page, and a donation page. The site is fully responsive and gives the church members one clear place to find services, watch messages, and follow what’s happening in the community.',
+                descriptionPreview: 'A multi-page website I designed and built for Pure Word Believers Tabernacle in Tuguegarao City, Cagayan.',
+                descriptionMore: 'It includes a home page with a live countdown to the next gathering, a sermon archive with a latest-message player, mission and event pages, a watch page, an about page, and a donation page. The site is fully responsive and gives the church members one clear place to find services, watch messages, and follow what’s happening in the community.',
+                tools: ['HTML', 'CSS', 'JavaScript'],
+                siteUrl: 'https://pwbtuguegarao.freepage.cc/',
+                video: 'https://www.youtube.com/embed/X1kHl1XsjY4',
+                videoTitle: 'Church Website'
+              },
+              {
+                title: 'Artist Website for a DJ: Biography, Events Calendar & Booking Page',
+                image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80',
+                description: 'A custom one-page website I designed and built for Darren Luistro, a Toronto-based DJ who plays soul, house, and groove-driven sets. The site tells his story through an About section and biography, shows highlight videos and linked YouTube sets, lists his upcoming events, and links to his Instagram, SoundCloud, and YouTube. It also has a booking form where clients enter the event date, set time, set length, venue, and a short event description, so inquiries arrive with the details he needs to quote and confirm. The goal was a clean, personal site that reflects his sound and makes it easy to book him.',
+                descriptionPreview: 'A custom one-page website I designed and built for Darren Luistro, a Toronto-based DJ who plays soul, house, and groove-driven sets.',
+                descriptionMore: 'The site tells his story through an About section and biography, shows highlight videos and linked YouTube sets, lists his upcoming events, and links to his Instagram, SoundCloud, and YouTube. It also has a booking form where clients enter the event date, set time, set length, venue, and a short event description, so inquiries arrive with the details he needs to quote and confirm. The goal was a clean, personal site that reflects his sound and makes it easy to book him.',
+                tools: ['HTML', 'CSS', 'JavaScript', 'Visual Studio Code'],
+                siteUrl: 'https://darrenluistro.pages.dev/',
+                video: 'https://www.youtube.com/embed/dlTUu6i4BYM',
+                videoTitle: 'DJ Darren'
+              }
+            ]
+          },
+          {
+            id: 'data-analytics',
+            title: 'Data Analytics',
+            tag: 'Data to decisions',
+            image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
+            description: 'Structured reporting and analysis support to turn information into useful business insight.',
+            projects: [
+              {
+                title: 'Lead Source & Conversion Report',
+                tag: 'Data to decisions',
+                image: 'img/lead-report-card.jpg',
+                imageAlt: 'Excel dashboard showing lead source performance, a pipeline by stage chart, and overdue follow-ups by agent',
+                description: 'An interactive Excel dashboard showing which lead sources convert, where the pipeline stalls, and which follow-ups are overdue.',
+                tools: ['Excel Dashboard', 'Pipeline Tracking', 'Live Filters'],
+                video: '',
+                thumbnailType: 'lead-report',
+                caseStudyUrl: 'project-lead-report.html'
+              },
+              {
+                title: 'Monthly Expense Analysis',
+                tag: 'Data to decisions',
+                image: 'img/expense-card.jpg',
+                imageAlt: 'Monthly Expense Analysis dashboard in Excel, showing spending by category and payment method',
+                description: 'An interactive Excel dashboard that shows where September spending went, how it was paid, and which expenses are missing receipts.',
+                tools: ['Spend Analytics', 'Receipt Checks', 'Dynamic Charts'],
+                video: '',
+                thumbnailType: 'expense-analysis',
+                caseStudyUrl: 'project-expense-analysis.html'
+              }
+            ]
+          },
+          {
+            id: 'admin-operations',
+            title: 'Administrative & Operations',
+            tag: 'Workflow support',
+            image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80',
+            description: 'Support for records, workflow structure, and smooth operation of everyday tasks.',
+            projects: [
+              {
+                title: 'Payroll, vendor payments and bank reconciliation',
+                tag: 'Finance operations',
+                image: 'img/payroll.png',
+                descriptionPreview: 'A sample workbook for reviewing payroll, tracking vendor payments, and reconciling bank transactions.',
+                tools: ['MS Excel', 'Google Sheets', 'COUNTIF', 'SUMIF', 'COUNTIFS', 'FILTER'],
+                caseStudyUrl: 'operations-case-study.html'
+              },
+              {
+                title: 'Real Estate Sales Admin',
+                tag: 'Sales support',
+                descriptionPreview: 'Listing, lead, and commission tracking with follow-up alerts so no client falls through the cracks.',
+                tools: ['Excel', 'Formulas', 'Conditional formatting', 'Summary dashboards'],
+                thumbnailType: 'real-estate-preview',
+                caseStudyUrl: 'project-real-estate.html'
+              },
+              {
+                title: 'Data Cleaning & Records',
+                tag: 'Data quality',
+                descriptionPreview: 'Messy exports turned into clean, consistent records, with a log of every fix made.',
+                tools: ['Excel', 'TRIM / PROPER / LOWER', 'Remove Duplicates', 'Find & Replace', 'Conditional formatting'],
+                thumbnailType: 'cleaning-preview',
+                caseStudyUrl: 'project-data-cleaning.html'
+              }
+            ]
+          },
+          {
+            id: 'digital-workflow',
+            title: 'Digital Workflow Support',
+            tag: 'Systems and structure',
+            image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80',
+            description: 'Organized systems and repeatable workflows to improve digital consistency and efficiency.',
+            projects: [
+              {
+                title: 'Workflow Template',
+                image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80',
+                description: 'A process template for managing tasks, updates, and recurring digital work more clearly.',
+                tools: ['Process Mapping', 'Operations', 'Documentation'],
+                video: ''
+              },
+              {
+                title: 'Digital Ops Checklist',
+                image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80',
+                description: 'A checklist-based system for organizing work, ensuring consistency, and reducing repeated effort.',
+                tools: ['Checklists', 'Processes', 'Documentation'],
+                video: ''
+              }
+            ]
+          }
+        ]
+      }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const personKey = params.get('person') || 'arnold';
+    const categoryKey = params.get('category');
+    const projectKey = params.get('project');
+    const person = portfolioData[personKey] || portfolioData.arnold;
+    document.body.dataset.portfolioPerson = personKey;
+
+    function renderCategoryGrid() {
+      const content = `
+          <section class="page-banner">
+            <div class="container">
+              <div class="breadcrumbs">
+                <a href="index.html">Home</a>
+                <span> / </span>
+                <span>${person.name}</span>
+              </div>
+              <h1>${person.name}</h1>
+              <p>${person.intro}</p>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="container">
+              <div class="category-grid">
+                ${person.categories.map(category => `
+                  <article class="category-card${category.id === 'digital-workflow' ? ' virtual-assistant-card' : ''}">
+                    <a href="portfolio.html?person=${personKey}&category=${category.id}">
+                      ${category.id === 'digital-workflow' ? `
+                        <div class="virtual-assistant-visual" aria-hidden="true">
+                          <div class="virtual-assistant-icons">
+                            <span class="virtual-assistant-icon icon-email">
+                              <svg viewBox="0 0 32 32" fill="none"><rect x="5" y="8" width="22" height="16" rx="2.5"/><path d="m6 10 10 8 10-8"/></svg>
+                            </span>
+                            <span class="virtual-assistant-icon icon-calendar">
+                              <svg viewBox="0 0 32 32" fill="none"><rect x="6" y="8" width="20" height="18" rx="2.5"/><path d="M11 5v6M21 5v6M6 13h20M11 18h.01M16 18h.01M21 18h.01M11 22h.01M16 22h.01"/></svg>
+                            </span>
+                            <span class="virtual-assistant-icon icon-tasks">
+                              <svg viewBox="0 0 32 32" fill="none"><rect x="7" y="6" width="19" height="21" rx="2.5"/><path d="m11 13 1.5 1.5L15 12M17 13h5M11 20l1.5 1.5L15 19M17 20h5"/></svg>
+                            </span>
+                            <span class="virtual-assistant-icon icon-video">
+                              <svg viewBox="0 0 32 32" fill="none"><rect x="5" y="8" width="22" height="16" rx="3"/><path d="m14 12 7 4-7 4z"/></svg>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="virtual-assistant-content">
+                          <span class="virtual-assistant-badge">Executive support</span>
+                          <h3>Digital Workflow Support</h3>
+                          <p>Email management, inbox organization, calendar support, and content production to keep business operations moving smoothly.</p>
+                        </div>
+                      ` : `
+                        <div class="card-image">
+                          <img src="${category.image}" alt="${category.title}" />
+                        </div>
+                        <div class="card-body">
+                          <span class="meta">${category.tag}</span>
+                          <h3>${category.title}</h3>
+                          <p>${category.description}</p>
+                        </div>
+                      `}
+                    </a>
+                  </article>
+                `).join('')}
+              </div>
+            </div>
+          </section>
+        `;
+      document.getElementById('portfolio-root').innerHTML = content;
+    }
+
+    function renderVideo(project) {
+      return project.video.toLowerCase().endsWith('.mp4')
+        ? `<video controls playsinline preload="metadata" aria-label="${project.title}"><source src="${project.video}" type="video/mp4" />Your browser does not support HTML video.</video>`
+        : `<iframe src="${project.video}" title="${project.videoTitle || project.title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+    }
+
+    function renderProjectGallery(category) {
+      if (category.id === 'data-analytics') {
+        const content = `
+          <section class="page-banner">
+            <div class="container">
+              <div class="breadcrumbs">
+                <a href="index.html">Home</a> <span>/</span>
+                <a href="portfolio.html?person=${personKey}">${person.name}</a> <span>/</span>
+                <span>${category.title}</span>
+              </div>
+              <h1>${category.title}</h1>
+              <p>${category.description}</p>
+            </div>
+          </section>
+          <section class="section admin-project-section">
+            <div class="container">
+              <div class="hero-actions admin-project-back">
+                <a class="btn btn-secondary" href="portfolio.html?person=${personKey}">Back to categories</a>
+              </div>
+              <div class="admin-project-grid">
+                ${category.projects.map(project => `
+                  ${project.thumbnailType === 'lead-report' ? '<!-- Detail page will be added later. -->' : ''}
+                  <a class="admin-project-card" href="${project.caseStudyUrl || ('portfolio.html?person=' + personKey + '&category=' + category.id + '&project=' + encodeURIComponent(project.title))}">
+                    <div class="admin-project-card-image ${project.thumbnailType === 'lead-report' ? 'admin-project-card-image-lead-report' : 'admin-project-card-image-payroll'}">
+                      <img src="${project.image}" alt="${project.imageAlt || project.title}" loading="lazy" />
+                    </div>
+                    <div class="admin-project-card-body">
+                      <span class="admin-project-card-tag">${project.tag}</span>
+                      <h2>${project.title}</h2>
+                      <p>${project.description}</p>
+                      <div class="project-tools admin-project-card-tools" aria-label="Project features">
+                        ${project.tools.map(tool => `<span class="tool-tag">${tool}</span>`).join('')}
+                      </div>
+                      <span class="admin-project-action">Open case study <span aria-hidden="true">→</span></span>
+                    </div>
+                  </a>
+                `).join('')}
+              </div>
+            </div>
+          </section>
+        `;
+        document.getElementById('portfolio-root').innerHTML = content;
+        return;
+      }
+
+      if (category.id === 'admin-operations') {
+        const content = `
+          <section class="page-banner">
+            <div class="container">
+              <div class="breadcrumbs">
+                <a href="index.html">Home</a> <span>/</span>
+                <a href="portfolio.html?person=${personKey}">${person.name}</a> <span>/</span>
+                <span>${category.title}</span>
+              </div>
+              <h1>${category.title}</h1>
+              <p>${category.description}</p>
+            </div>
+          </section>
+          <section class="section admin-project-section">
+            <div class="container">
+              <div class="hero-actions admin-project-back">
+                <a class="btn btn-secondary" href="portfolio.html?person=${personKey}">Back to categories</a>
+              </div>
+              <div class="admin-project-grid">
+                ${category.projects.map(project => `
+                  <a class="admin-project-card" href="${project.caseStudyUrl}" aria-label="Open ${project.title} project detail">
+                    <div class="admin-project-card-image ${project.thumbnailType ? `admin-project-card-image-${project.thumbnailType}` : 'admin-project-card-image-payroll'}" role="img" aria-label="${project.thumbnailType === 'cleaning-preview' ? 'Sample contact records before and after cleaning' : project.thumbnailType === 'real-estate-preview' ? 'Sample real estate listings with property names and sale statuses' : 'Payroll spreadsheet sample'}">
+                      ${project.thumbnailType === 'cleaning-preview' ? `
+                        <div class="admin-project-preview-sheet admin-project-sheet-before" aria-hidden="true">
+                          <div class="admin-project-preview-title">Raw export</div>
+                          <div class="admin-project-preview-contact">
+                            <span class="admin-project-preview-id">CL-1001</span>
+                            <span class="admin-project-preview-detail">JERICHO.CORDERO@EXAMPLE.COM</span>
+                            <span class="admin-project-preview-detail">CALGARY</span>
+                          </div>
+                          <div class="admin-project-preview-contact">
+                            <span class="admin-project-preview-id">CL-1005</span>
+                            <span class="admin-project-preview-detail">&nbsp;&nbsp;Joaquin&nbsp;&nbsp;Trinidad&nbsp;</span>
+                            <span class="admin-project-preview-flag">Blank email</span>
+                          </div>
+                        </div>
+                        <div class="admin-project-preview-sheet admin-project-sheet-after" aria-hidden="true">
+                          <div class="admin-project-preview-title">Cleaned data</div>
+                          <div class="admin-project-preview-contact">
+                            <span class="admin-project-preview-id">CL-1001</span>
+                            <span class="admin-project-preview-detail">Jericho Cordero</span>
+                            <span class="admin-project-preview-detail">Calgary</span>
+                          </div>
+                          <div class="admin-project-preview-contact">
+                            <span class="admin-project-preview-id">CL-1005</span>
+                            <span class="admin-project-preview-detail">Joaquin Trinidad</span>
+                            <span class="admin-project-preview-flag">Missing email</span>
+                          </div>
+                        </div>
+                      ` : project.thumbnailType === 'real-estate-preview' ? `
+                        <div class="admin-project-preview-estate" aria-hidden="true">
+                          <div class="admin-project-preview-topline"><span>LISTINGS</span><span>24 TRACKED</span></div>
+                          <div class="admin-project-preview-table-head"><span>ID</span><span>PROPERTY</span><span>STATUS</span></div>
+                          <div class="admin-project-preview-listing"><span>L-113</span><span>Pinewood Estates, Lot 2</span><b>Sold</b></div>
+                          <div class="admin-project-preview-listing"><span>L-115</span><span>Harborview Towers, Unit 17A</span><b>Sold</b></div>
+                          <div class="admin-project-preview-listing"><span>L-109</span><span>Stonegate Place, Lot 46A</span><b class="is-active">Active</b></div>
+                          <div class="admin-project-preview-total"><span>Closed sales value</span><strong>₱78.6M</strong></div>
+                        </div>
+                      ` : `<img src="${project.image}" alt="" aria-hidden="true" />`}
+                    </div>
+                    <div class="admin-project-card-body">
+                      <span class="admin-project-card-tag">${project.tag}</span>
+                      <h2>${project.title}</h2>
+                      <p>${project.descriptionPreview}</p>
+                      <div class="project-tools admin-project-card-tools" aria-label="Tools used">
+                        ${project.tools.map(tool => `<span class="tool-tag">${tool}</span>`).join('')}
+                      </div>
+                      <span class="admin-project-action">Open case study <span aria-hidden="true">→</span></span>
+                    </div>
+                  </a>
+                `).join('')}
+              </div>
+            </div>
+          </section>
+        `;
+        document.getElementById('portfolio-root').innerHTML = content;
+        return;
+      }
+
+      if (category.id === 'digital-workflow') {
+        const services = [
+          {
+            title: 'Email Management',
+            badge: 'Inbox systems',
+            description: 'Triage rules and ready-to-send replies that keep an inbox answered and under control.',
+            panel: 'email',
+            icon: '<rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="m4.5 7 7.5 6 7.5-6"/>'
+          },
+          {
+            title: 'Inbox Organization',
+            badge: 'Clean setup',
+            description: 'Labels, filters, and folders that sort incoming mail automatically.',
+            panel: 'inbox',
+            icon: '<path d="M3 12.5h5l2 2.5h4l2-2.5h5l-2 6H5l-2-6Z"/><path d="M4 12.5 6 5h12l2 7.5"/>'
+          },
+          {
+            title: 'Calendar & Scheduling',
+            badge: 'Time management',
+            description: 'Booking workflows and calendar setups that prevent double bookings and missed meetings.',
+            panel: 'calendar',
+            icon: '<rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M8 3.5v4M16 3.5v4M4 9.5h16M8 13h.01M12 13h.01M16 13h.01M8 16.5h.01M12 16.5h.01"/>'
+          },
+        ];
+
+        const content = `
+          <section class="page-banner">
+            <div class="container">
+              <div class="breadcrumbs">
+                <a href="index.html">Home</a> <span>/</span>
+                <a href="portfolio.html?person=${personKey}">${person.name}</a> <span>/</span>
+                <span>${category.title}</span>
+              </div>
+              <h1>${category.title}</h1>
+              <p>${category.description}</p>
+            </div>
+          </section>
+          <section class="section admin-project-section">
+            <div class="container">
+              <div class="hero-actions admin-project-back">
+                <a class="btn btn-secondary" href="portfolio.html?person=${personKey}">Back to categories</a>
+              </div>
+              <div class="va-support-grid">
+                ${services.map(service => `
+                  ${service.title === 'Email Management' ? '<a class="va-service-card va-service-link" href="project-email-management.html" aria-label="Open Email Management triage sample">' : service.title === 'Calendar & Scheduling' ? '<a class="va-service-card va-service-link" href="project-calendar-scheduling.html" aria-label="Open Calendar and Scheduling sample">' : service.title === 'Inbox Organization' ? '<a class="va-service-card va-service-link" href="inbox-organization.html" aria-label="Open Inbox Organization sample">' : '<article class="va-service-card">'}
+                    <div class="va-service-art va-art-${service.panel}" aria-hidden="true">
+                      <span class="va-service-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${service.icon}</svg>
+                      </span>
+                    </div>
+                    <div class="va-service-copy">
+                      <span class="va-service-badge">${service.badge}</span>
+                      <h2>${service.title}</h2>
+                      <p>${service.description}</p>
+                    </div>
+                  ${service.title === 'Email Management' || service.title === 'Calendar & Scheduling' || service.title === 'Inbox Organization' ? '</a>' : '</article>'}
+                `).join('')}
+              </div>
+            </div>
+          </section>
+        `;
+        document.getElementById('portfolio-root').innerHTML = content;
+        return;
+      }
+
+      const isVideoShowcase = category.id === 'videos';
+      const isDesignShowcase = category.id === 'graphic-design';
+      const isFeaturedShowcase = isVideoShowcase || isDesignShowcase;
+
+      const content = `
+    <section class="page-banner">
+      <div class="container">
+        <div class="breadcrumbs">
+          <a href="index.html">Home</a> <span>/</span>
+          <a href="portfolio.html?person=${personKey}">${person.name}</a> <span>/</span>
+          <span>${category.title}</span>
+        </div>
+        <h1>${category.title}</h1>
+        <p>${category.description}</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="hero-actions" style="margin-bottom: 20px;">
+          <a class="btn btn-secondary" href="portfolio.html?person=${personKey}">Back to categories</a>
+        </div>
+        <div class="${isFeaturedShowcase ? 'featured-project-grid' : 'project-list'}">
+          ${category.projects.map(project => `
+            <article class="${project.video ? 'video-project-card' : 'design-project-card'}">
+              
+              ${project.photos && project.photos.length === 4 ? `
+                <div class="card-media-wrapper">
+                  <div class="photo-grid-4">
+                    ${project.photos.map((src, i) => `
+                      <div class="photo-item" tabindex="0" aria-label="Expand image ${i + 1}">
+                        <img src="${src}" alt="${project.title} screenshot${i + 1}" loading="lazy" />
+                        <div class="expand-overlay"><span class="expand-icon">⤢</span></div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              ` : project.video ? `
+                <div class="video-frame${project.video.toLowerCase().endsWith('.mp4') ? ' video-frame-native' : ''}">
+                  ${renderVideo(project)}
+                </div>
+              ` : `
+                <div class="card-image">
+                  <img src="${project.image}" alt="${project.title}" />
+                </div>
+              `}
+
+              <div class="card-body">
+                <h3>${project.title}</h3>
+                <p>${project.descriptionPreview || project.description}</p>${project.descriptionMore ? `
+                  <details class="description-toggle">
+                    <summary><span class="more-label">...more</span><span class="less-label">...less</span></summary>
+                    <p>${project.descriptionMore}</p>
+                  </details>
+                ` : ''}
+                
+                <div class="card-footer-row">
+                  <div class="project-tools">
+                    ${project.tools.map(tool => `<span class="tool-tag">${tool}</span>`).join('')}
+                  </div>
+
+                  ${project.siteUrl ? `
+                    <a href="${project.siteUrl}" class="btn-more-works" target="_blank" rel="noopener noreferrer" aria-label="Visit live website">
+                      <span>Visit Live Website</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 3h7v7M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                    </a>
+                  ` : ''}
+                </div>
+              </div>
+            </article>
+          `).join('')
+        }
+        </div >
+
+      <!-- Single Centered Button Below the Project Grid -->
+      ${category.moreWorksUrl ? `
+          <div class="category-more-actions">
+            <a href="${category.moreWorksUrl}" class="btn-see-more-projects" target="_blank" rel="noopener noreferrer">
+              <span>See More Projects</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        ` : ''
+        }
+
+      </div >
+    </section >
+
+      <!-- Global Fullscreen Lightbox Overlay -->
+      <div id="image-lightbox" class="lightbox-modal" aria-hidden="true">
+        <div class="lightbox-backdrop"></div>
+        <div class="lightbox-content">
+          <img id="lightbox-img" src="" alt="Expanded preview" />
+          <span class="lightbox-hint">Click anywhere to close</span>
+        </div>
+      </div>
+    `;
+
+      document.getElementById('portfolio-root').innerHTML = content;
+      initLightbox();
+    }
+
+    /* Lightbox Click-to-Expand / Click-to-Close Script */
+    function initLightbox() {
+      const lightbox = document.getElementById('image-lightbox');
+      const lightboxImg = document.getElementById('lightbox-img');
+      if (!lightbox || !lightboxImg) return;
+
+      // Open Lightbox when any grid photo is clicked
+      document.querySelectorAll('.photo-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const img = item.querySelector('img');
+          if (img) {
+            lightboxImg.src = img.src;
+            lightbox.classList.add('active');
+            lightbox.setAttribute('aria-hidden', 'false');
+          }
+        });
+      });
+
+      // Close Lightbox when clicked again (on backdrop or image)
+      lightbox.addEventListener('click', () => {
+        lightbox.classList.remove('active');
+        lightbox.setAttribute('aria-hidden', 'true');
+        lightboxImg.src = '';
+      });
+    }
+
+    function renderProjectDetail(category, projectName) {
+      const project = category.projects.find(item => item.title === decodeURIComponent(projectName)) || category.projects[0];
+      const content = `
+      < section class="page-banner" >
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="index.html">Home</a>
+            <span> / </span>
+            <a href="portfolio.html?person=${personKey}">${person.name}</a>
+            <span> / </span>
+            <a href="portfolio.html?person=${personKey}&category=${category.id}">${category.title}</a>
+            <span> / </span>
+            <span>${project.title}</span>
+          </div>
+          <h1>${project.title}</h1>
+        </div>
+          </section >
+
+      <section class="section">
+        <div class="container">
+          <div class="hero-actions" style="margin-bottom: 20px;">
+            <a class="btn btn-secondary" href="portfolio.html?person=${personKey}">Back to categories</a>
+          </div>
+
+          <div class="detail-stage">
+            <div class="detail-image">
+              <img src="${project.image}" alt="${project.title}" />
+            </div>
+            <div class="detail-content">
+              <h2>${project.title}</h2>
+              <p>${project.description}</p>
+              <div class="project-tools">
+                ${project.tools.map(tool => `<span class="tool-tag">${tool}</span>`).join('')}
+              </div>
+              ${project.video ? `
+                    <div class="video-frame" style="margin-top: 20px;">
+                      ${renderVideo(project)}
+                    </div>
+                  ` : ''}
+            </div>
+          </div>
+        </div>
+      </section>
+        `;
+      document.getElementById('portfolio-root').innerHTML = content;
+    }
+
+    if (categoryKey) {
+      const selectedCategory = person.categories.find(cat => cat.id === categoryKey) || person.categories[0];
+      if (projectKey) {
+        renderProjectDetail(selectedCategory, projectKey);
+      } else {
+        renderProjectGallery(selectedCategory);
+      }
+    } else {
+      renderCategoryGrid();
+    }
+
+    const portfolioRoot = document.getElementById('portfolio-root');
+    portfolioRoot.addEventListener('play', event => {
+      const activeVideo = event.target;
+      if (!(activeVideo instanceof HTMLVideoElement)) return;
+
+      portfolioRoot.querySelectorAll('video').forEach(video => {
+        if (video !== activeVideo && !video.paused) video.pause();
+      });
+    }, true);
+  </script>
+
+  <footer class="jm-footer">
+    <div class="container">
+      <div class="jm-footer-top">
+        <a href="index.html" class="jm-footer-brand">
+          <span class="jm-footer-mark" aria-hidden="true">JM</span>
+          <span><strong>Justine May Balbuena</strong><small>Smart Support. Creative Solutions. Better Workflows.</small></span>
+        </a>
+        <nav class="jm-footer-nav" aria-label="Footer navigation">
+          <a href="index.html">Home</a>
+          <a href="portfolio.html?person=justine">Portfolio</a>
+          <a href="about.html">About Me</a>
+        </nav>
+      </div>
+      <div class="jm-footer-bottom">
+        <span>© 2026 Justine May Balbuena. All rights reserved.</span>
+        <a href="mailto:justinemaybalbuena23@gmail.com">justinemaybalbuena23@gmail.com</a>
+      </div>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+  <script src="particles.js"></script>
+</body>
+
+</html>

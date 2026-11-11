@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Monthly Expense Analysis dashboard project." />
+    <title>Monthly Expense Analysis | Portfolio</title>
+    <link rel="icon" type="image/svg+xml" href="img/jm-favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/jm-brand.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+    <link rel="stylesheet" href="project-detail.css" />
+</head>
+
+<body class="expense-analysis-page">
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand" aria-label="Justine May home">
+                <span class="brand-logo jm-brand-mark" aria-hidden="true">JM</span>
+                <span class="brand-text jm-brand-text">Justine May</span>
+            </a>
+            <button class="mobile-toggle" aria-label="Open menu" aria-expanded="false">
+                <span></span>
+            </button>
+            <nav aria-label="Main navigation">
+                <ul class="main-nav">
+                    <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="portfolio.html?person=justine" class="nav-link">Portfolio</a></li>
+                    <li class="nav-item"><a href="about.html" class="nav-link">About Me</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="case-study-banner expense-analysis-hero">
+            <div class="container detail-hero-inner">
+                <a class="btn btn-secondary case-study-back expense-analysis-back"
+                    href="portfolio.html?person=justine&amp;category=data-analytics">&larr; Back to projects</a>
+                <span class="tag-pill">Data to decisions</span>
+                <h1>Monthly Expense Analysis</h1>
+                <p class="expense-analysis-intro">An interactive Excel dashboard that shows where September spending
+                    went, how it was paid, and which expenses are missing receipts. All names and figures are fictional
+                    sample data.</p>
+            </div>
+        </section>
+
+        <div class="detail-main expense-analysis-main">
+            <section class="stat-grid" aria-labelledby="expense-summary-heading">
+                <h2 class="expense-analysis-visually-hidden" id="expense-summary-heading">Monthly expense summary</h2>
+                <article class="stat-tile"><strong>₱81,663</strong><span>Total September spending</span></article>
+                <article class="stat-tile"><strong>32</strong><span>Expense entries</span></article>
+                <article class="stat-tile"><strong>37%</strong><span>Largest category share</span></article>
+                <article class="stat-tile"><strong>5</strong><span>Expenses without receipts</span></article>
+            </section>
+
+            <section class="expense-analysis-section" aria-labelledby="expense-dashboard-heading">
+                <h2 id="expense-dashboard-heading">The dashboard</h2>
+                <figure class="expense-dashboard-frame">
+                    <img src="img/expense-dashboard.jpg"
+                        alt="Monthly Expense Analysis dashboard in Excel, showing summary figures, spending by category, a running total, and payment methods"
+                        loading="lazy" />
+                </figure>
+                <p class="expense-analysis-caption">Default view with both filters set to All.</p>
+            </section>
+
+            <section class="expense-analysis-section" aria-labelledby="expense-work-heading">
+                <h2 id="expense-work-heading">What I did</h2>
+                <ul class="expense-analysis-work-list">
+                    <li>Built an interactive dashboard in Excel with two dropdown filters: Category and Payment method
+                    </li>
+                    <li>Used SUMIFS and COUNTIFS formulas, including date criteria, so every tile, table, and chart
+                        responds to the filters</li>
+                    <li>Added three native Excel charts: share of spending by category, running total through September,
+                        and spending by payment method</li>
+                    <li>Wrote the summary as formulas, so the written insights update when the filters change</li>
+                    <li>Flagged expenses with no receipt so they can be collected before month-end close</li>
+                </ul>
+            </section>
+
+            <section class="expense-analysis-section" aria-labelledby="expense-filters-heading">
+                <h2 id="expense-filters-heading">Try the filters</h2>
+                <div class="expense-comparison-grid">
+                    <article class="expense-comparison-card">
+                        <h3>Category: All</h3>
+                        <div class="expense-comparison-figures">
+                            <div><strong>₱81,663</strong><span>total spending</span></div>
+                            <div><strong>32</strong><span>entries</span></div>
+                            <div><strong>5</strong><span>without receipts</span></div>
+                        </div>
+                    </article>
+                    <article class="expense-comparison-card">
+                        <h3>Category: Professional Fees</h3>
+                        <div class="expense-comparison-figures">
+                            <div><strong>₱30,545</strong><span>total spending</span></div>
+                            <div><strong>5</strong><span>entries</span></div>
+                            <div><strong>1</strong><span>without receipt</span></div>
+                        </div>
+                    </article>
+                </div>
+                <p class="expense-analysis-caption">Picking a category updates every tile, table, chart, and summary
+                    line on the sheet.</p>
+            </section>
+
+            <section class="expense-analysis-section" aria-labelledby="expense-findings-heading">
+                <h2 id="expense-findings-heading">Key findings</h2>
+                <div class="expense-findings-grid">
+                    <article>Largest category: Professional Fees at ₱30,545 (37% of spending). The top three categories
+                        make up 70% of the ₱81,663 total.</article>
+                    <article>Most used payment method by value: E-wallet (₱33,591). Spending peaked in the week of Sep 1
+                        to 7 at ₱26,103.</article>
+                    <article>5 of 32 expenses (₱14,277) have no receipt on file. Most missing: Software (2).</article>
+                    <article>Recommendation: collect the missing receipts before month-end close, and review the largest
+                        category for savings or a cheaper plan.</article>
+                </div>
+            </section>
+
+            <section class="case-study-footer-section">
+                <div class="container case-study-footer-row">
+                    <div class="project-tools case-study-tools" aria-label="Tools used">
+                        <span class="tool-tag">Excel</span>
+                        <span class="tool-tag">SUMIFS / COUNTIFS</span>
+                        <span class="tool-tag">Dropdown filters</span>
+                        <span class="tool-tag">Native charts</span>
+                        <span class="tool-tag">Dynamic text formulas</span>
+                    </div>
+                    <a class="btn-more-works case-study-sheet-link"
+                        href="https://docs.google.com/spreadsheets/d/15PN5TJfMLWdFgG41IeNNdZYmenRlAImm/edit?usp=sharing&amp;ouid=103921579475986521223&amp;rtpof=true&amp;sd=true"
+                        target="_blank" rel="noopener noreferrer">
+                        <span>View live sheet</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" aria-hidden="true">
+                            <path d="M14 3h7v7M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                        </svg>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="jm-footer">
+        <div class="container">
+            <div class="jm-footer-top">
+                <a href="index.html" class="jm-footer-brand">
+                    <span class="jm-footer-mark" aria-hidden="true">JM</span>
+                    <span><strong>Justine May Balbuena</strong><small>Smart Support. Creative Solutions. Better Workflows.</small></span>
+                </a>
+                <nav class="jm-footer-nav" aria-label="Footer navigation">
+                    <a href="index.html">Home</a>
+                    <a href="portfolio.html?person=justine">Portfolio</a>
+                    <a href="about.html">About Me</a>
+                </nav>
+            </div>
+            <div class="jm-footer-bottom">
+                <span>© 2026 Justine May Balbuena. All rights reserved.</span>
+                <a href="mailto:justinemaybalbuena23@gmail.com">justinemaybalbuena23@gmail.com</a>
+            </div>
+        </div>
+    </footer>
+    <script src="particles.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

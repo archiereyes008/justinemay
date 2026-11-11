@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Professional profile for Justine May Balbuena." />
+    <title>Profile | Justine May Balbuena</title>
+    <link rel="icon" type="image/svg+xml" href="img/jm-favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/jm-brand.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+  </head>
+  <body>
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="index.html" class="brand" aria-label="Justine May home">
+          <span class="brand-logo jm-brand-mark" aria-hidden="true">JM</span>
+          <span class="brand-text jm-brand-text">Justine May</span>
+        </a>
+
+        <button class="mobile-toggle" aria-label="Open menu" aria-expanded="false">
+          <span></span>
+        </button>
+
+        <nav aria-label="Main navigation">
+          <ul class="main-nav">
+            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="portfolio.html?person=justine" class="nav-link">Portfolio</a></li>
+            <li class="nav-item"><a href="about.html" class="nav-link" aria-current="page">About Me</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-hero" style="padding-top: 40px;">
+      <div class="container" id="profile-root"></div>
+    </main>
+
+    <footer class="jm-footer">
+      <div class="container">
+        <div class="jm-footer-top">
+          <a href="index.html" class="jm-footer-brand">
+            <span class="jm-footer-mark" aria-hidden="true">JM</span>
+            <span><strong>Justine May Balbuena</strong><small>Smart Support. Creative Solutions. Better Workflows.</small></span>
+          </a>
+          <nav class="jm-footer-nav" aria-label="Footer navigation">
+            <a href="index.html">Home</a>
+            <a href="portfolio.html?person=justine">Portfolio</a>
+            <a href="about.html">About Me</a>
+          </nav>
+        </div>
+        <div class="jm-footer-bottom">
+          <span>© 2026 Justine May Balbuena. All rights reserved.</span>
+          <a href="mailto:justinemaybalbuena23@gmail.com">justinemaybalbuena23@gmail.com</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const person = {
+        name: 'Justine May Balbuena',
+        title: 'Virtual Assistant | Admin & Data Support',
+        image: 'img/picture.png',
+        email: 'justinemaybalbuena23@gmail.com',
+        phone: '+63 995 988 5570',
+        location: 'Tuguegarao City, Cagayan',
+        skills: [
+          'Administrative Support',
+          'Data Entry',
+          'Email Management',
+          'Google Workspace',
+          'Excel Reporting',
+          'Document Management',
+          'Customer Coordination',
+          'WordPress & Basic Web Development',
+          'Power BI',
+          'GoHighLevel (Basic Familiarity)'
+        ],
+        experience: [
+          {
+            title: 'Virtual Admin Assistant (Operations)',
+            company: 'Consumer Goods Manufacturing',
+            period: 'February 2025 - October 2026',
+            responsibilities: [
+              'Manage and update operational records, spreadsheets, and digital files using Google Workspace.',
+              'Handle administrative tasks, data entry, email correspondence, and follow-ups.',
+              'Assist with sales reporting, documentation, and day-to-day operational coordination.'
+            ]
+          },
+          {
+            title: 'Sales Admin Assistant',
+            company: 'Real Estate Industry (Phirst Park Homes)',
+            period: 'August 2024 - February 2025',
+            responsibilities: [
+              'Managed buyer documentation, reservation records, and booking requirements.',
+              'Reviewed and validated buyer documents to ensure completeness and accuracy.',
+              'Prepared daily sales reports and maintained records using Microsoft Excel.',
+              'Coordinated document follow-ups, signatures, receipts, and buyer communications.'
+            ]
+          }
+        ],
+        internship: {
+          title: 'HIMO & Accounting Intern',
+          company: 'WVSU Medical Center',
+          period: 'January - April 2024',
+          responsibilities: [
+            'Assisted with data entry, document filing, and basic accounting tasks.',
+            'Maintained supplier records and financial data using Microsoft Excel.',
+            'Developed an Excel-based patient visit forecasting model and dashboard.'
+          ]
+        },
+        projects: [
+          'Poultry Intellexi Management System with Early Disease Detection and Forecasting Egg Sales Revenue (PIMS)',
+          'DJ Landing Page',
+          'Pure Word Believers (Church Website)'
+        ]
+      };
+
+      const root = document.getElementById('profile-root');
+      root.innerHTML = `
+        <div class="profile-header">
+          <div>
+            <div class="breadcrumbs">
+              <a href="about.html">About Me</a>
+              <span> / </span>
+              <span>${person.name}</span>
+            </div>
+          </div>
+          <a class="btn btn-secondary" href="about.html">Back to About Me</a>
+        </div>
+
+        <div class="profile-grid">
+          <aside class="profile-sidebar">
+            <div class="avatar">
+              <img src="${person.image}" alt="${person.name}" />
+            </div>
+            <h2>${person.name}</h2>
+            <div class="profile-title">${person.title}</div>
+
+            <ul class="profile-contact">
+              <li><strong>Email:</strong> <a href="mailto:${person.email}">${person.email}</a></li>
+              <li><strong>Phone:</strong> <a href="tel:${person.phone.replaceAll(' ', '')}">${person.phone}</a></li>
+              <li><strong>Location:</strong> ${person.location}</li>
+            </ul>
+
+            <div class="resume-section">
+              <h3>Core Skills</h3>
+              <ul class="skill-list">
+                ${person.skills.map(skill => `<li>${skill}</li>`).join('')}
+              </ul>
+            </div>
+
+            <section class="resume-section">
+              <h3>Education</h3>
+              <div class="timeline">
+                <article class="timeline-item">
+                  <h4>BS Information Systems</h4>
+                  <div class="meta">West Visayas State University | 2020 - 2024</div>
+                  <p>Magna Cum Laude</p>
+                </article>
+              </div>
+            </section>
+          </aside>
+
+          <div class="profile-main">
+            <section class="resume-section">
+              <h3>What I Solve</h3>
+              <p>I help businesses stay organized and operate efficiently by simplifying administrative tasks, managing business data, maintaining accurate records, and streamlining daily operations through digital tools.</p>
+            </section>
+
+            <section class="resume-section">
+              <h3>Work Experience</h3>
+              <div class="timeline">
+                ${person.experience.map(item => `
+                  <article class="timeline-item">
+                    <h4>${item.title}</h4>
+                    <div class="meta">${item.company} | ${item.period}</div>
+                    <ul>
+                      ${item.responsibilities.map(res => `<li>${res}</li>`).join('')}
+                    </ul>
+                  </article>
+                `).join('')}
+              </div>
+            </section>
+
+            <section class="resume-section">
+              <h3>Internship Experience</h3>
+              <div class="timeline">
+                <article class="timeline-item">
+                  <h4>${person.internship.title}</h4>
+                  <div class="meta">${person.internship.company} | ${person.internship.period}</div>
+                  <ul>
+                    ${person.internship.responsibilities.map(res => `<li>${res}</li>`).join('')}
+                  </ul>
+                </article>
+              </div>
+            </section>
+
+            <section class="resume-section">
+              <h3>Projects & Digital Solutions</h3>
+              <div class="timeline">
+                ${person.projects.map(project => `
+                  <article class="timeline-item">
+                    <h4><a href="#" aria-label="Add project link for ${project}">${project}</a></h4>
+                  </article>
+                `).join('')}
+              </div>
+            </section>
+          </div>
+        </div>
+      `;
+    </script>
+    <script src="script.js"></script>
+    <script src="particles.js"></script>
+  </body>
+</html>

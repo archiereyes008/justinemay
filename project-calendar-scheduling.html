@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A fictional calendar and scheduling workflow for Brightwell Studio." />
+    <title>Calendar &amp; Scheduling | Brightwell Studio Sample</title>
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            --plum: #4a1a5c;
+            --plum-deep: #351043;
+            --ink: #1c1530;
+            --muted: #625c70;
+            --line: #e9e5ee;
+            --orange: #f3a04e;
+            --green: #65a77c;
+            --gray: #a5a2ad;
+            --red: #c83d50;
+            --surface: #ffffff;
+            --focus: #f5c96a;
+            --hour-height: 68px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        #bg-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: .85;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            min-width: 320px;
+            margin: 0;
+            background-color: #2a1b4a;
+            background-image:
+                linear-gradient(135deg, rgb(0 0 0 / 45%) 0%, rgb(0 0 0 / 45%) 100%),
+                linear-gradient(135deg, #3e3daf 0%, #f200b5 100%);
+            color: var(--ink);
+            line-height: 1.5;
+        }
+
+        main {
+            display: flex;
+            flex: 1 0 auto;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        button:focus-visible,
+        a:focus-visible {
+            outline: 3px solid var(--focus);
+            outline-offset: 3px;
+        }
+
+        .page-shell {
+            width: min(100%, 1224px);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+            padding: 38px 22px 32px;
+        }
+
+        .case-study-back {
+            display: inline-flex;
+            min-height: 52px;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            margin-bottom: 6px;
+            border: 1px solid rgba(17, 43, 70, .12);
+            border-radius: 14px;
+            padding: 0 22px;
+            background: #fff;
+            color: #112b46;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: .2s ease;
+        }
+
+        .case-study-back:hover,
+        .case-study-back:focus-visible {
+            transform: translateY(-1px);
+            background: #eef4ff;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            border-radius: 999px;
+            padding: 5px 11px;
+            background: #eef3ff;
+            color: #263757;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .page-heading {
+            max-width: 830px;
+            margin-bottom: 27px;
+            color: #fff;
+        }
+
+        .page-heading h1 {
+            margin: 13px 0 7px;
+            font-size: clamp(34px, 4vw, 46px);
+            line-height: 1.12;
+        }
+
+        .intro {
+            max-width: 760px;
+            margin: 0;
+            color: #f0eaf5;
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        .sample-note {
+            margin: 11px 0 0;
+            color: #d9c9e1;
+            font-size: 13px;
+        }
+
+        .rule-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .rule-card {
+            min-width: 0;
+            border-left: 4px solid #75458a;
+            border-radius: 12px;
+            padding: 15px 17px 16px;
+            background: var(--surface);
+            box-shadow: 0 8px 22px rgba(20, 8, 29, .12);
+        }
+
+        .rule-card h2 {
+            margin: 0 0 7px;
+            font-size: 16px;
+            line-height: 1.3;
+        }
+
+        .rule-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .workspace {
+            display: grid;
+            grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr);
+            align-items: start;
+            gap: 20px;
+        }
+
+        .panel {
+            min-width: 0;
+            overflow: hidden;
+            border-radius: 16px;
+            background: var(--surface);
+            box-shadow: 0 14px 34px rgba(20, 8, 29, .16);
+        }
+
+        .panel-heading {
+            margin: 0;
+            border-bottom: 1px solid var(--line);
+            padding: 19px 22px;
+            color: var(--ink);
+            font-size: 18px;
+            line-height: 1.3;
+        }
+
+        .calendar-panel-content {
+            padding: 16px 14px 18px;
+        }
+
+        .day-label {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            margin: 0 0 14px 78px;
+        }
+
+        .day-label strong {
+            font-size: 15px;
+        }
+
+        .day-label span {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .calendar-scroll {
+            overflow-x: auto;
+            overscroll-behavior-inline: contain;
+        }
+
+        .calendar-canvas {
+            position: relative;
+            min-width: 440px;
+            height: calc(var(--hour-height) * 8);
+            border-top: 1px solid var(--line);
+            background: #fff;
+        }
+
+        .hour-label {
+            position: absolute;
+            left: 0;
+            width: 66px;
+            padding-right: 9px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1;
+            text-align: right;
+            transform: translateY(-50%);
+        }
+
+        .hour-label.first {
+            transform: none;
+            padding-top: 5px;
+        }
+
+        .hour-label.last {
+            transform: translateY(-100%);
+        }
+
+        .hour-line {
+            position: absolute;
+            right: 0;
+            left: 76px;
+            height: 1px;
+            background: var(--line);
+        }
+
+        .hour-line.half-hour {
+            border-top: 1px dashed #f0edf2;
+            background: transparent;
+        }
+
+        .calendar-event {
+            position: absolute;
+            z-index: 2;
+            left: 84px;
+            right: 7px;
+            display: flex;
+            min-height: 26px;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+            border-left: 4px solid transparent;
+            border-radius: 5px;
+            padding: 3px 8px;
+            color: #33213a;
+            font-size: 12px;
+            line-height: 1.3;
+        }
+
+        .calendar-event strong {
+            overflow: hidden;
+            font-size: 12px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .calendar-event span {
+            overflow: hidden;
+            font-size: 10px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .event-client {
+            border-left-color: #cf741f;
+            background: #ffdfbd;
+        }
+
+        .event-protected {
+            border-left-color: #348153;
+            background: #d8eddf;
+        }
+
+        .event-admin {
+            border-left-color: #77737d;
+            background: #e9e7eb;
+        }
+
+        .event-request {
+            z-index: 5;
+            border: 2px dashed #75458a;
+            background: rgb(238 226 244 / 88%);
+            color: var(--plum-deep);
+        }
+
+        .event-request.conflict {
+            border-color: var(--red);
+            background: rgb(255 230 233 / 94%);
+            color: #7f1e2d;
+        }
+
+        .event-request.caution {
+            border-color: #d57a25;
+            background: rgb(255 239 219 / 94%);
+            color: #70400e;
+        }
+
+        .event-request.clear {
+            border-color: #30805d;
+            background: rgb(225 244 231 / 95%);
+            color: #1e5639;
+        }
+
+        .request-panel-content {
+            padding: 16px 19px 20px;
+        }
+
+        .request-prompt {
+            margin: 0 0 12px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .request-list {
+            display: grid;
+            padding: 7px;
+        }
+
+        .request-button {
+            display: flex;
+            width: 100%;
+            min-width: 0;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            border: 0;
+            border-left: 4px solid transparent;
+            border-radius: 8px;
+            padding: 13px 12px;
+            background: transparent;
+            color: var(--ink);
+            text-align: left;
+            cursor: pointer;
+            transition: background .16s ease;
+        }
+
+        .request-button:hover {
+            background: #f7f4f9;
+        }
+
+        .request-button[aria-pressed="true"] {
+            border-left-color: #75458a;
+            background: #f6f2f8;
+        }
+
+        .request-name {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .request-detail {
+            display: block;
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .request-time {
+            flex: 0 0 auto;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .result-area {
+            margin-top: 18px;
+            border-top: 1px solid var(--line);
+            padding-top: 16px;
+        }
+
+        .result-topline {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 13px;
+        }
+
+        .result-topline h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .status-tag {
+            display: inline-flex;
+            align-items: center;
+            min-height: 27px;
+            border-radius: 999px;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .status-tag.conflict {
+            background: #fde5e8;
+            color: #992839;
+        }
+
+        .status-tag.caution {
+            background: #fff0dc;
+            color: #89500f;
+        }
+
+        .status-tag.clear {
+            background: #e2f2e7;
+            color: #276344;
+        }
+
+        .result-block {
+            margin-top: 12px;
+        }
+
+        .result-block h4 {
+            margin: 0 0 4px;
+            color: var(--plum);
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .result-block p {
+            margin: 0;
+            color: #453c4b;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .reply-box {
+            margin-top: 14px;
+            border: 1px solid #e4dce9;
+            border-radius: 12px;
+            padding: 15px;
+            background: #faf7fc;
+        }
+
+        .reply-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .reply-heading h4 {
+            margin: 0;
+            font-size: 13px;
+        }
+
+        .copy-button {
+            min-height: 36px;
+            border: 1px solid #5b2c69;
+            border-radius: 8px;
+            padding: 7px 11px;
+            background: #5b2c69;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .copy-button:hover {
+            background: #42174f;
+        }
+
+        .reply-text {
+            margin: 0;
+            color: #383147;
+            font-size: 13px;
+            line-height: 1.55;
+            white-space: pre-wrap;
+        }
+
+        .copy-status {
+            min-height: 18px;
+            margin: 4px 0 0;
+            color: #276344;
+            font-size: 11px;
+        }
+
+        .workflow-section {
+            margin-top: 25px;
+        }
+
+        .workflow-section h2 {
+            margin: 0 0 13px;
+            color: #fff;
+            font-size: 21px;
+        }
+
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .workflow-step {
+            min-width: 0;
+            border-radius: 12px;
+            padding: 16px;
+            background: #fff;
+            box-shadow: 0 8px 22px rgba(20, 8, 29, .12);
+        }
+
+        .step-number {
+            display: grid;
+            width: 28px;
+            height: 28px;
+            place-items: center;
+            margin-bottom: 10px;
+            border-radius: 50%;
+            background: #eee4f2;
+            color: var(--plum);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .workflow-step h3 {
+            margin: 0 0 6px;
+            font-size: 14px;
+            line-height: 1.35;
+        }
+
+        .workflow-step p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .setup-footer {
+            margin-top: auto;
+            border-top: 1px solid rgb(0 229 255 / 30%);
+            padding-top: 18px;
+            color: #e4d8e9;
+            font-size: 12px;
+            line-height: 1.55;
+        }
+
+        .setup-footer strong {
+            color: #fff;
+        }
+
+        @media (max-width: 1000px) {
+            .workspace {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .workflow-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 700px) {
+            .page-shell {
+                width: 100%;
+                padding: 24px 15px 26px;
+            }
+
+            .rule-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 10px;
+            }
+
+            .rule-card {
+                padding: 14px;
+            }
+
+            .workflow-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .panel-heading {
+                padding: 16px;
+            }
+
+            .calendar-panel-content,
+            .request-panel-content {
+                padding-right: 14px;
+                padding-left: 14px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .page-shell {
+                padding-top: 26px;
+            }
+
+            .rule-grid,
+            .workflow-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .rule-card {
+                padding: 13px 14px;
+            }
+
+            .request-button {
+                align-items: flex-start;
+            }
+
+            .request-time {
+                max-width: 92px;
+                text-align: right;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="css/footer.css" />
+</head>
+
+<body>
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+    <main class="page-shell">
+        <a class="case-study-back" href="portfolio.html?person=justine&amp;category=digital-workflow"
+            aria-label="Back to Digital Workflow Support projects">&#8592; Back to projects</a>
+        <header class="page-heading">
+            <span class="eyebrow">Time management</span>
+            <h1>Calendar &amp; Scheduling</h1>
+            <p class="intro">A booking system that checks every request against the calendar before anyone is told
+                &quot;yes&quot;, so there are no double bookings and no missed meetings.</p>
+            <p class="sample-note">Sample project for Brightwell Studio (a fictional photography business). All names
+                and events are made up.</p>
+        </header>
+
+        <section class="rule-grid" aria-label="Scheduling rules">
+            <article class="rule-card">
+                <h2>One calendar, one truth</h2>
+                <p>Every booking, call, and editing block lives in a single shared calendar.</p>
+            </article>
+            <article class="rule-card">
+                <h2>15-minute buffer</h2>
+                <p>No two client events back to back, so there is travel and prep time.</p>
+            </article>
+            <article class="rule-card">
+                <h2>Protected time</h2>
+                <p>Lunch (12:00 to 1:00) and editing blocks are never offered to clients.</p>
+            </article>
+            <article class="rule-card">
+                <h2>Two reminders</h2>
+                <p>Client gets a reminder 24 hours and 1 hour before every meeting.</p>
+            </article>
+        </section>
+
+        <section class="workspace" aria-label="Calendar and booking request review">
+            <section class="panel" aria-labelledby="day-heading">
+                <h2 class="panel-heading" id="day-heading">Thursday, October 22: the owner's day</h2>
+                <div class="calendar-panel-content">
+                    <div class="day-label"><strong>Brightwell Studio</strong><span>9:00 AM to 5:00 PM</span></div>
+                    <div class="calendar-scroll" tabindex="0" aria-label="Scrollable day calendar">
+                        <div class="calendar-canvas" id="calendar-canvas" aria-label="Day calendar from 9 AM to 5 PM">
+                            <div id="hour-lines" aria-hidden="true"></div>
+                            <div id="calendar-events"></div>
+                            <div id="request-overlay" aria-live="polite"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel" aria-labelledby="requests-heading">
+                <h2 class="panel-heading" id="requests-heading">Incoming booking requests: select one to run the check
+                </h2>
+                <div class="request-panel-content">
+                    <p class="request-prompt">Choose a request to check availability and prepare the next reply.</p>
+                    <div class="request-list" id="request-list" aria-label="Booking requests"></div>
+                    <div class="result-area" id="result-area" aria-live="polite"></div>
+                </div>
+            </section>
+        </section>
+
+        <section class="workflow-section" aria-labelledby="workflow-heading">
+            <h2 id="workflow-heading">The booking workflow</h2>
+            <div class="workflow-grid">
+                <article class="workflow-step"><span class="step-number">1</span>
+                    <h3>Request arrives</h3>
+                    <p>By form, email, or message. Copy date, time, length, and client name.</p>
+                </article>
+                <article class="workflow-step"><span class="step-number">2</span>
+                    <h3>Check the calendar</h3>
+                    <p>Look for overlaps, buffer gaps, and protected time.</p>
+                </article>
+                <article class="workflow-step"><span class="step-number">3</span>
+                    <h3>Confirm or offer 2 options</h3>
+                    <p>Send a reply within 2 hours. Always give two alternatives, never just &quot;no&quot;.</p>
+                </article>
+                <article class="workflow-step"><span class="step-number">4</span>
+                    <h3>Add to calendar</h3>
+                    <p>Add the event with the client's details, location, and a meeting link.</p>
+                </article>
+                <article class="workflow-step"><span class="step-number">5</span>
+                    <h3>Send reminders</h3>
+                    <p>Automatic reminders go out 24 hours and 1 hour before.</p>
+                </article>
+            </div>
+        </section>
+
+        <footer class="setup-footer"><strong>Setup behind this:</strong> 1 shared calendar with 4 color categories, a
+            booking form with an availability limit, 6 saved confirmation templates, and a weekly Sunday check of the
+            coming 7 days.</footer>
+    </main>
+    <footer class="jm-footer">
+        <div class="container">
+            <div class="jm-footer-top">
+                <a href="index.html" class="jm-footer-brand">
+                    <span class="jm-footer-mark" aria-hidden="true">JM</span>
+                    <span><strong>Justine May Balbuena</strong><small>Smart Support. Creative Solutions. Better Workflows.</small></span>
+                </a>
+                <nav class="jm-footer-nav" aria-label="Footer navigation">
+                    <a href="index.html">Home</a>
+                    <a href="portfolio.html?person=justine">Portfolio</a>
+                    <a href="about.html">About Me</a>
+                </nav>
+            </div>
+            <div class="jm-footer-bottom">
+                <span>© 2026 Justine May Balbuena. All rights reserved.</span>
+                <a href="mailto:justinemaybalbuena23@gmail.com">justinemaybalbuena23@gmail.com</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const hourHeight = 68;
+        const dayStart = 9 * 60;
+        const dayEnd = 17 * 60;
+        const calendarEvents = [
+            { title: 'Admin: inbox and invoices', time: '9:00–10:00 AM', start: 9 * 60, end: 10 * 60, type: 'admin' },
+            { title: 'Family session: Marcus Lee', time: '10:00 AM–12:00 PM', start: 10 * 60, end: 12 * 60, type: 'client' },
+            { title: 'Lunch, protected', time: '12:00–1:00 PM', start: 12 * 60, end: 13 * 60, type: 'admin' },
+            { title: 'Editing block, protected', time: '1:30–2:30 PM', start: 13 * 60 + 30, end: 14 * 60 + 30, type: 'protected' },
+            { title: 'Consult call: Hannah Cole', time: '3:00–3:30 PM', start: 15 * 60, end: 15 * 60 + 30, type: 'client' }
+        ];
+
+        const requests = [
+            {
+                name: 'Priya Nair', type: '30-min consult', start: 10 * 60 + 30, end: 11 * 60,
+                time: '10:30–11:00 AM', status: 'Conflict', tone: 'conflict',
+                check: 'This request overlaps with the Marcus Lee family session, so it cannot be booked at this time.',
+                action: 'Offer Thursday at 1:00 PM or 4:00 PM. Both are free and keep the 15-minute buffer.',
+                reply: 'Hi Priya,\n\nThank you for reaching out. We are already booked at 10:30 AM on Thursday, October 22. I can offer 1:00 PM or 4:00 PM instead. Let me know which time works best, and I will send the calendar invite once you choose.\n\nAlex, Brightwell Studio'
+            },
+            {
+                name: 'Daniel Reyes', type: '30-min planning call', start: 14 * 60 + 30, end: 15 * 60,
+                time: '2:30–3:00 PM', status: 'Buffer needed', tone: 'caution',
+                check: 'There is no overlap, but the request ends exactly when the Hannah Cole call starts, leaving no 15-minute buffer.',
+                action: 'Move the call to 4:00 PM, or shorten it to 2:30–2:45 PM.',
+                reply: 'Hi Daniel,\n\nThanks for sending your preferred time. That slot is just short of the 15-minute buffer we keep between client calls. Would 4:00 PM on Thursday, October 22 work for the same 30-minute call? If not, let me know your best time and I will check another option.\n\nAlex, Brightwell Studio'
+            },
+            {
+                name: 'Ines Park', type: '20-min intro call', start: 12 * 60 + 15, end: 12 * 60 + 35,
+                time: '12:15–12:35 PM', status: 'Protected time', tone: 'caution',
+                check: 'This request falls inside the protected lunch block, which is not offered to clients.',
+                action: 'Offer 1:00 PM today or Friday morning.',
+                reply: 'Hi Ines,\n\nThank you for your interest. 12:15 PM on Thursday is not available, but I can offer 1:00 PM today or a time Friday morning. Let me know which option works better for you.\n\nAlex, Brightwell Studio'
+            },
+            {
+                name: 'Omar Hale', type: '30-min consult', start: 16 * 60, end: 16 * 60 + 30,
+                time: '4:00–4:30 PM', status: 'Clear to book', tone: 'clear',
+                check: 'There are no overlaps or protected blocks, and there is a 30-minute gap after the Hannah Cole call.',
+                action: 'Confirm now, add the meeting link to the calendar, and schedule the 24-hour and 1-hour reminders.',
+                reply: 'Hi Omar,\n\nYour consult is confirmed for Thursday, October 22 at 4:00 PM. I will send a calendar invite with the meeting link. You will also receive reminders 24 hours and 1 hour before the call.\n\nAlex, Brightwell Studio'
+            }
+        ];
+
+        const hourLines = document.getElementById('hour-lines');
+        const eventLayer = document.getElementById('calendar-events');
+        const overlayLayer = document.getElementById('request-overlay');
+        const requestList = document.getElementById('request-list');
+        const resultArea = document.getElementById('result-area');
+        let selectedIndex = 0;
+        let copyTimer;
+
+        function formatHour(hour) {
+            const displayHour = hour % 12 || 12;
+            return `${displayHour}:00 ${hour < 12 ? 'AM' : 'PM'}`;
+        }
+
+        for (let hour = 0; hour <= 8; hour += 1) {
+            const top = hour * hourHeight;
+            const label = document.createElement('div');
+            label.className = `hour-label${hour === 0 ? ' first' : ''}${hour === 8 ? ' last' : ''}`;
+            label.style.top = `${top}px`;
+            label.textContent = formatHour(9 + hour);
+            hourLines.append(label);
+
+            if (hour < 8) {
+                const line = document.createElement('div');
+                line.className = 'hour-line';
+                line.style.top = `${top}px`;
+                hourLines.append(line);
+                const halfLine = document.createElement('div');
+                halfLine.className = 'hour-line half-hour';
+                halfLine.style.top = `${top + hourHeight / 2}px`;
+                hourLines.append(halfLine);
+            }
+        }
+
+        function placeEvent(event, className, layer = eventLayer) {
+            const block = document.createElement('div');
+            const top = ((event.start - dayStart) / 60) * hourHeight;
+            const height = ((event.end - event.start) / 60) * hourHeight;
+            block.className = `calendar-event ${className}`;
+            block.style.top = `${top + 2}px`;
+            block.style.height = `${Math.max(26, height - 4)}px`;
+            block.innerHTML = `<strong>${event.title}</strong><span>${event.time}</span>`;
+            layer.append(block);
+        }
+
+        calendarEvents.forEach(event => {
+            const typeClass = event.type === 'client' ? 'event-client' : event.type === 'protected' ? 'event-protected' : 'event-admin';
+            placeEvent(event, typeClass);
+        });
+
+        requests.forEach((request, index) => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'request-button';
+            button.setAttribute('aria-pressed', String(index === selectedIndex));
+            button.setAttribute('aria-controls', 'result-area');
+            button.innerHTML = `<span><span class="request-name">${request.name}</span><span class="request-detail">${request.type}</span></span><span class="request-time">${request.time}</span>`;
+            button.addEventListener('click', () => selectRequest(index));
+            requestList.append(button);
+        });
+
+        function selectRequest(index) {
+            selectedIndex = index;
+            const request = requests[index];
+            requestList.querySelectorAll('.request-button').forEach((button, buttonIndex) => {
+                button.setAttribute('aria-pressed', String(buttonIndex === index));
+            });
+
+            overlayLayer.replaceChildren();
+            placeEvent({ ...request, title: `${request.name} · ${request.type}` }, `event-request ${request.tone}`, overlayLayer);
+
+            resultArea.innerHTML = `
+        <div class="result-topline">
+          <h3>${request.name}: ${request.type}</h3>
+          <span class="status-tag ${request.tone}">${request.status}</span>
+        </div>
+        <div class="result-block"><h4>Check</h4><p>${request.check}</p></div>
+        <div class="result-block"><h4>Action</h4><p>${request.action}</p></div>
+        <div class="reply-box">
+          <div class="reply-heading"><h4>Ready-to-send reply</h4><button type="button" class="copy-button" id="copy-reply">Copy reply</button></div>
+          <p class="reply-text" id="reply-text"></p>
+          <p class="copy-status" id="copy-status" aria-live="polite"></p>
+        </div>`;
+            document.getElementById('reply-text').textContent = request.reply;
+            document.getElementById('copy-reply').addEventListener('click', copyReply);
+        }
+
+        async function copyReply() {
+            const reply = requests[selectedIndex].reply;
+            const button = document.getElementById('copy-reply');
+            const status = document.getElementById('copy-status');
+            let copied = false;
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(reply);
+                    copied = true;
+                } else {
+                    const temp = document.createElement('textarea');
+                    temp.value = reply;
+                    temp.setAttribute('readonly', '');
+                    temp.style.position = 'fixed';
+                    temp.style.opacity = '0';
+                    document.body.append(temp);
+                    temp.select();
+                    copied = document.execCommand('copy');
+                    temp.remove();
+                }
+            } catch {
+                copied = false;
+            }
+
+            if (copied) {
+                button.textContent = 'Copied';
+                status.textContent = 'Reply copied to clipboard.';
+                window.clearTimeout(copyTimer);
+                copyTimer = window.setTimeout(() => {
+                    const currentButton = document.getElementById('copy-reply');
+                    if (currentButton) currentButton.textContent = 'Copy reply';
+                }, 1800);
+            } else {
+                status.textContent = 'Copy was unavailable. Select and copy the reply text above.';
+            }
+        }
+
+        selectRequest(0);
+    </script>
+    <script>
+        const backgroundCanvas = document.getElementById('bg-canvas');
+        const backgroundContext = backgroundCanvas.getContext('2d');
+        const reduceBackgroundMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const backgroundMotionScale = reduceBackgroundMotion ? 0.35 : 1;
+        const backgroundParticles = [];
+        const backgroundParticleCount = 45;
+        const backgroundConnectDistance = 130;
+        const backgroundBlue = '96, 165, 255';
+        const backgroundPink = '255, 105, 220';
+
+        function resizeBackgroundCanvas() {
+            backgroundCanvas.width = window.innerWidth;
+            backgroundCanvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeBackgroundCanvas);
+        resizeBackgroundCanvas();
+
+        for (let index = 0; index < backgroundParticleCount; index += 1) {
+            backgroundParticles.push({
+                x: Math.random() * backgroundCanvas.width,
+                y: Math.random() * backgroundCanvas.height,
+                radius: Math.random() * 2 + 1,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
+                color: Math.random() > 0.5 ? backgroundBlue : backgroundPink
+            });
+        }
+
+        function animateBackground() {
+            backgroundContext.clearRect(0, 0, backgroundCanvas.width, backgroundCanvas.height);
+
+            backgroundParticles.forEach((particle, index) => {
+                particle.x += particle.vx * backgroundMotionScale;
+                particle.y += particle.vy * backgroundMotionScale;
+                if (particle.x < 0 || particle.x > backgroundCanvas.width) particle.vx *= -1;
+                if (particle.y < 0 || particle.y > backgroundCanvas.height) particle.vy *= -1;
+
+                backgroundContext.beginPath();
+                backgroundContext.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                backgroundContext.fillStyle = `rgba(${particle.color}, 0.85)`;
+                backgroundContext.fill();
+
+                for (let nextIndex = index + 1; nextIndex < backgroundParticles.length; nextIndex += 1) {
+                    const nextParticle = backgroundParticles[nextIndex];
+                    const distance = Math.hypot(particle.x - nextParticle.x, particle.y - nextParticle.y);
+                    if (distance < backgroundConnectDistance) {
+                        backgroundContext.beginPath();
+                        backgroundContext.moveTo(particle.x, particle.y);
+                        backgroundContext.lineTo(nextParticle.x, nextParticle.y);
+                        backgroundContext.strokeStyle = `rgba(${backgroundPink}, ${(1 - distance / backgroundConnectDistance) * 0.3})`;
+                        backgroundContext.stroke();
+                    }
+                }
+            });
+
+            window.requestAnimationFrame(animateBackground);
+        }
+
+        animateBackground();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Contact Justine May Balbuena for administrative, data, and digital support." />
+    <title>Contact | Justine May Balbuena</title>
+    <link rel="icon" type="image/svg+xml" href="img/jm-favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/jm-brand.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+  </head>
+  <body>
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="index.html" class="brand" aria-label="Justine May home">
+          <span class="brand-logo jm-brand-mark" aria-hidden="true">JM</span>
+          <span class="brand-text jm-brand-text">Justine May</span>
+        </a>
+
+        <button class="mobile-toggle" aria-label="Open menu" aria-expanded="false">
+          <span></span>
+        </button>
+
+        <nav aria-label="Main navigation">
+          <ul class="main-nav">
+            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+            <li class="nav-item has-dropdown">
+            <li class="nav-item"><a href="portfolio.html?person=justine" class="nav-link">Portfolio</a></li>
+            <li class="nav-item"><a href="about.html" class="nav-link">About Me</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-banner">
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="index.html">Home</a>
+            <span> / </span>
+            <span>Contact</span>
+          </div>
+          <h1>Contact</h1>
+          <p>Have a project in mind? Get in touch to discuss practical support for your business.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container contact-layout">
+          <aside class="contact-panel">
+            <h3>Let’s build something useful.</h3>
+            <p style="color: var(--muted);">Whether you need digital media, data support, operations help, or a stronger website presence, we can help.</p>
+
+            <div class="contact-points">
+              <div class="contact-point">
+                <div class="contact-icon">✉</div>
+                <div>
+                  <strong>Email</strong><br />
+                  <a href="mailto:justinemaybalbuena23@gmail.com">justinemaybalbuena23@gmail.com</a>
+                </div>
+              </div>
+              <div class="contact-point">
+                <div class="contact-icon">☎</div>
+                <div>
+                  <strong>Phone</strong><br />
+                  <a href="tel:+639959885570">+63 995 988 5570</a>
+                </div>
+              </div>
+              <div class="contact-point">
+                <div class="contact-icon">📍</div>
+                <div>
+                  <strong>Location</strong><br />
+                  Tuguegarao City, Cagayan
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <div class="form-panel">
+            <h3>Send a message</h3>
+            <form>
+              <div class="form-grid">
+                <div class="field">
+                  <label for="full-name">Full Name</label>
+                  <input id="full-name" type="text" placeholder="Your full name" required />
+                </div>
+
+                <div class="field">
+                  <label for="email">Email Address</label>
+                  <input id="email" type="email" placeholder="you@example.com" required />
+                </div>
+
+                <div class="field full">
+                  <label for="company">Company / Organization</label>
+                  <input id="company" type="text" placeholder="Optional" />
+                </div>
+
+                <div class="field full">
+                  <label for="service">Service Interested In</label>
+                  <select id="service" required>
+                    <option value="">Select a service</option>
+                    <option>Video Editing</option>
+                    <option>Graphic Design</option>
+                    <option>Data Analytics</option>
+                    <option>Administrative Work</option>
+                    <option>Website Development</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+
+                <div class="field full">
+                  <label for="message">Project Description / Message</label>
+                  <textarea id="message" placeholder="Tell us a little about your project..." required></textarea>
+                </div>
+              </div>
+
+              <div class="hero-actions" style="margin-top: 24px;">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+
+              <p class="form-note">Frontend form placeholder: connect this to your future email or form backend.</p>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="jm-footer">
+      <div class="container">
+        <div class="jm-footer-top">
+          <a href="index.html" class="jm-footer-brand">
+            <span class="jm-footer-mark" aria-hidden="true">JM</span>
+            <span><strong>Justine May Balbuena</strong><small>Smart Support. Creative Solutions. Better Workflows.</small></span>
+          </a>
+          <nav class="jm-footer-nav" aria-label="Footer navigation">
+            <a href="index.html">Home</a>
+            <a href="portfolio.html?person=justine">Portfolio</a>
+            <a href="about.html">About Me</a>
+          </nav>
+        </div>
+        <div class="jm-footer-bottom">
+          <span>© 2026 Justine May Balbuena. All rights reserved.</span>
+          <a href="mailto:justinemaybalbuena23@gmail.com">justinemaybalbuena23@gmail.com</a>
+        </div>
+      </div>
+    </footer>
+    <script src="script.js"></script>
+    <script src="particles.js"></script>
+  </body>
+</html>

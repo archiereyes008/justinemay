@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="A fictional client contact export cleaned into consistent records with a detailed issue log." />
+    <title>Data Cleaning: Client Contact List | Justine May Balbuena</title>
+    <link rel="icon" type="image/svg+xml" href="img/jm-favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/jm-brand.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+    <link rel="stylesheet" href="project-detail.css" />
+</head>
+
+<body class="data-cleaning-page">
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand" aria-label="Justine May home">
+                <span class="brand-logo jm-brand-mark" aria-hidden="true">JM</span>
+                <span class="brand-text jm-brand-text">Justine May</span>
+            </a>
+            <button class="mobile-toggle" aria-label="Open menu" aria-expanded="false">
+                <span></span>
+            </button>
+            <nav aria-label="Main navigation">
+                <ul class="main-nav">
+                    <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="portfolio.html?person=justine" class="nav-link">Portfolio</a></li>
+                    <li class="nav-item"><a href="about.html" class="nav-link">About Me</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="data-cleaning-banner">
+            <div class="data-cleaning-banner-inner">
+                <a class="btn btn-secondary case-study-back data-cleaning-back"
+                    href="portfolio.html?person=justine&amp;category=admin-operations">&larr; Back to projects</a>
+                <span class="tag-pill">Data quality</span>
+                <h1>Data Cleaning: Client Contact List</h1>
+                <p class="data-cleaning-intro">A messy client export turned into a clean, consistent record set, with a
+                    log of every issue found and fixed. All names and contact details are fictional sample data.</p>
+            </div>
+        </section>
+
+        <div class="data-cleaning-main">
+            <section class="data-cleaning-stats" aria-label="Project summary statistics">
+                <article class="stat-tile"><strong>42</strong><span>Rows in raw export</span></article>
+                <article class="stat-tile"><strong>36</strong><span>Clean records</span></article>
+                <article class="stat-tile"><strong>6</strong><span>Duplicates removed</span></article>
+                <article class="stat-tile"><strong>4</strong><span>Missing emails flagged</span></article>
+            </section>
+
+            <section aria-labelledby="what-i-did-heading">
+                <h2 id="what-i-did-heading">What I did</h2>
+                <ul class="data-cleaning-work-list">
+                    <li>Received a messy client contact export with duplicates, mixed formats, and inconsistent spelling
+                    </li>
+                    <li>Standardized names, emails, phone numbers, cities, statuses, and dates across every record</li>
+                    <li>Removed duplicate rows by matching on Client ID and kept the first entry</li>
+                    <li>Flagged records with missing emails instead of guessing, so they can be followed up</li>
+                    <li>Documented every issue, the rows affected, and the fix applied in a cleaning log</li>
+                </ul>
+            </section>
+
+            <section aria-labelledby="before-after-heading">
+                <h2 id="before-after-heading">Before and after</h2>
+                <div class="cleaning-table-group">
+                    <h3>Before: raw export</h3>
+                    <div class="cleaning-table-wrap" role="region"
+                        aria-label="Raw export table, scroll horizontally to see all columns" tabindex="0">
+                        <table class="cleaning-data-table before-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Client ID</th>
+                                    <th scope="col">Full Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Phone</th>
+                                    <th scope="col">City</th>
+                                    <th scope="col">Date Added</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>CL-1001</td>
+                                    <td>Jericho Cordero</td>
+                                    <td class="needs-cleaning">JERICHO.CORDERO@EXAMPLE.COM</td>
+                                    <td class="no-wrap">(403) 555-0101</td>
+                                    <td class="needs-cleaning">CALGARY</td>
+                                    <td class="needs-cleaning no-wrap">September 18, 2026</td>
+                                    <td class="needs-cleaning">active</td>
+                                </tr>
+                                <tr>
+                                    <td>CL-1002</td>
+                                    <td class="needs-cleaning">ferdinand valdez</td>
+                                    <td>ferdinand.valdez@example.com</td>
+                                    <td class="no-wrap">604-555-0102</td>
+                                    <td class="needs-cleaning">vancouver</td>
+                                    <td class="needs-cleaning no-wrap">2026-01-18</td>
+                                    <td class="needs-cleaning">ACTIVE</td>
+                                </tr>
+                                <tr>
+                                    <td>CL-1004</td>
+                                    <td>Emilio Samson</td>
+                                    <td class="needs-cleaning">&nbsp;emilio.samson@example.com&nbsp;</td>
+                                    <td class="needs-cleaning no-wrap">4035550104</td>
+                                    <td>Calgary</td>
+                                    <td class="needs-cleaning no-wrap">6-Feb-26</td>
+                                    <td class="needs-cleaning">inactive</td>
+                                </tr>
+                                <tr class="duplicate-row">
+                                    <td>CL-1004</td>
+                                    <td>Emilio Samson</td>
+                                    <td>&nbsp;emilio.samson@example.com&nbsp;</td>
+                                    <td class="no-wrap">4035550104</td>
+                                    <td>Calgary</td>
+                                    <td class="no-wrap">6-Feb-26</td>
+                                    <td>inactive</td>
+                                </tr>
+                                <tr>
+                                    <td>CL-1005</td>
+                                    <td class="needs-cleaning">&nbsp;&nbsp;Joaquin&nbsp;&nbsp;Trinidad&nbsp;</td>
+                                    <td class="needs-cleaning" aria-label="Blank email"></td>
+                                    <td class="needs-cleaning no-wrap">4165550105</td>
+                                    <td>Toronto</td>
+                                    <td class="needs-cleaning no-wrap">2026-08-20</td>
+                                    <td class="needs-cleaning">active</td>
+                                </tr>
+                                <tr>
+                                    <td>CL-1008</td>
+                                    <td class="needs-cleaning">&nbsp;&nbsp;Ferdinand&nbsp;&nbsp;Mendez&nbsp;</td>
+                                    <td class="needs-cleaning">FERDINAND.MENDEZ@EXAMPLE.COM</td>
+                                    <td class="needs-cleaning no-wrap">514.555.0108</td>
+                                    <td class="needs-cleaning">Montréal</td>
+                                    <td class="needs-cleaning no-wrap">6-Feb-26</td>
+                                    <td class="needs-cleaning">INACTIVE</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="cleaning-table-caption">Red cells need cleaning. The yellow row is a duplicate record.</p>
+                </div>
+
+                <div class="cleaning-table-group">
+                    <h3>After: cleaned data</h3>
+                    <div class="cleaning-table-wrap" role="region"
+                        aria-label="Cleaned data table, scroll horizontally to see all columns" tabindex="0">
+                        <table class="cleaning-data-table after-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Client ID</th>
+                                    <th scope="col">Full Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Phone</th>
+                                    <th scope="col">City</th>
+                                    <th scope="col">Date Added</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Data Flag</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>CL-1001</td>
+                                    <td>Jericho Cordero</td>
+                                    <td>jericho.cordero@example.com</td>
+                                    <td class="no-wrap">(403) 555-0101</td>
+                                    <td>Calgary</td>
+                                    <td class="no-wrap">2026-09-18</td>
+                                    <td>Active</td>
+                                    <td aria-label="No data"></td>
+                                </tr>
+                                <tr>
+                                    <td>CL-1002</td>
+                                    <td>Ferdinand Valdez</td>
+                                    <td>ferdinand.valdez@example.com</td>
+                                    <td class="no-wrap">(604) 555-0102</td>
+                                    <td>Vancouver</td>
+                                    <td class="no-wrap">2026-01-18</td>
+                                    <td>Active</td>
+                                    <td aria-label="No data"></td>
+                                </tr>
+                                <tr>
+                                    <td>CL-1004</td>
+                                    <td>Emilio Samson</td>
+                                    <td>emilio.samson@example.com</td>
+                                    <td class="no-wrap">(403) 555-0104</td>
+                                    <td>Calgary</td>
+                                    <td class="no-wrap">2026-02-06</td>
+                                    <td>Inactive</td>
+                                    <td aria-label="No data"></td>
+                                </tr>
+                                <tr>
+                                    <td>CL-1005</td>
+                                    <td>Joaquin Trinidad</td>
+                                    <td aria-label="No data"></td>
+                                    <td class="no-wrap">(416) 555-0105</td>
+                                    <td>Toronto</td>
+                                    <td class="no-wrap">2026-08-20</td>
+                                    <td>Active</td>
+                                    <td><span class="missing-email-pill">Missing email</span></td>
+                                </tr>
+                                <tr>
+                                    <td>CL-1008</td>
+                                    <td>Ferdinand Mendez</td>
+                                    <td>ferdinand.mendez@example.com</td>
+                                    <td class="no-wrap">(514) 555-0108</td>
+                                    <td>Montreal</td>
+                                    <td class="no-wrap">2026-02-06</td>
+                                    <td>Inactive</td>
+                                    <td aria-label="No data"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section aria-labelledby="issues-heading">
+                <h2 id="issues-heading">Issues found and fixes applied</h2>
+                <div class="cleaning-table-wrap" role="region"
+                    aria-label="Issues and fixes table, scroll horizontally to see all columns" tabindex="0">
+                    <table class="cleaning-data-table cleaning-issues-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Issue</th>
+                                <th scope="col">Column</th>
+                                <th scope="col">Rows Affected</th>
+                                <th scope="col">Fix Applied</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Duplicate records</td>
+                                <td>Client ID</td>
+                                <td class="rows-affected">6</td>
+                                <td>Matched on Client ID after trimming, kept the first entry, removed the rest</td>
+                            </tr>
+                            <tr>
+                                <td>Inconsistent name casing and extra spaces</td>
+                                <td>Full Name</td>
+                                <td class="rows-affected">26</td>
+                                <td>Trimmed spaces, collapsed double spaces, applied proper case</td>
+                            </tr>
+                            <tr>
+                                <td>Mixed case and stray spaces in email</td>
+                                <td>Email</td>
+                                <td class="rows-affected">13</td>
+                                <td>Trimmed and converted to lowercase</td>
+                            </tr>
+                            <tr>
+                                <td>Mixed phone formats</td>
+                                <td>Phone</td>
+                                <td class="rows-affected">28</td>
+                                <td>Standardized to (000) 000-0000 format</td>
+                            </tr>
+                            <tr>
+                                <td>Inconsistent city spelling and abbreviations</td>
+                                <td>City</td>
+                                <td class="rows-affected">22</td>
+                                <td>Mapped variants (for example toronto, MONTREAL) to one standard city name</td>
+                            </tr>
+                            <tr>
+                                <td>Dates stored as text in four formats</td>
+                                <td>Date Added</td>
+                                <td class="rows-affected">36</td>
+                                <td>Converted to real dates, displayed as yyyy-mm-dd</td>
+                            </tr>
+                            <tr>
+                                <td>Inconsistent status text</td>
+                                <td>Status</td>
+                                <td class="rows-affected">31</td>
+                                <td>Trimmed spaces and applied title case</td>
+                            </tr>
+                            <tr>
+                                <td>Blank email addresses</td>
+                                <td>Email</td>
+                                <td class="rows-affected">4</td>
+                                <td>Left blank and added a Missing email flag for follow-up</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="case-study-footer-section">
+                <div class="case-study-footer-row">
+                    <div class="project-tools case-study-tools" aria-label="Tools used">
+                        <span class="tool-tag">Excel</span>
+                        <span class="tool-tag">TRIM / PROPER / LOWER</span>
+                        <span class="tool-tag">Remove Duplicates</span>
+                        <span class="tool-tag">Find &amp; Replace</span>
+                        <span class="tool-tag">Conditional formatting</span>
+                    </div>
+                    <a class="btn-more-works case-study-sheet-link"
+                        href="https://docs.google.com/spreadsheets/d/11Yp4XaQt-HVrk-yxQx3P6RPwrC2kqYmC/edit?usp=sharing&amp;ouid=103921579475986521223&amp;rtpof=true&amp;sd=true"
+                        target="_blank" rel="noopener noreferrer">
+                        <span>View live sheet</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" aria-hidden="true">
+                            <path d="M14 3h7v7M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                        </svg>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="jm-footer">
+        <div class="container">
+            <div class="jm-footer-top">
+                <a href="index.html" class="jm-footer-brand">
+                    <span class="jm-footer-mark" aria-hidden="true">JM</span>
+                    <span><strong>Justine May Balbuena</strong><small>Smart Support. Creative Solutions. Better Workflows.</small></span>
+                </a>
+                <nav class="jm-footer-nav" aria-label="Footer navigation">
+                    <a href="index.html">Home</a>
+                    <a href="portfolio.html?person=justine">Portfolio</a>
+                    <a href="about.html">About Me</a>
+                </nav>
+            </div>
+            <div class="jm-footer-bottom">
+                <span>© 2026 Justine May Balbuena. All rights reserved.</span>
+                <a href="mailto:justinemaybalbuena23@gmail.com">justinemaybalbuena23@gmail.com</a>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+    <script src="particles.js"></script>
+</body>
+
+</html>

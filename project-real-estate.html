@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="A sample real estate listing, lead, and commission tracker with follow-up alerts." />
+    <title>Real Estate Sales Admin Tracker | Justine May Balbuena</title>
+    <link rel="icon" type="image/svg+xml" href="img/jm-favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/jm-brand.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+    <link rel="stylesheet" href="project-detail.css" />
+</head>
+
+<body class="real-estate-case-study-page">
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand" aria-label="Justine May home">
+                <span class="brand-logo jm-brand-mark" aria-hidden="true">JM</span>
+                <span class="brand-text jm-brand-text">Justine May</span>
+            </a>
+            <button class="mobile-toggle" aria-label="Open menu" aria-expanded="false">
+                <span></span>
+            </button>
+            <nav aria-label="Main navigation">
+                <ul class="main-nav">
+                    <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="portfolio.html?person=justine" class="nav-link">Portfolio</a></li>
+                    <li class="nav-item"><a href="about.html" class="nav-link">About Me</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="real-estate-case-study-main">
+        <section class="case-study-banner">
+            <div class="container">
+                <div class="detail-hero-inner">
+                    <a class="btn btn-secondary case-study-back"
+                        href="portfolio.html?person=justine&amp;category=admin-operations">&larr; Back to projects</a>
+                    <span class="tag-pill">Sales support</span>
+                    <h1>Real Estate Sales Admin Tracker</h1>
+                    <p class="detail-intro">A listing, lead, and commission tracker with follow-up alerts for a small
+                        real
+                        estate sales team. All names, properties, and figures are anonymized data.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="detail-main">
+            <section class="stat-grid" aria-label="Project summary statistics">
+                <article class="stat-tile"><strong>24</strong><span>Listings tracked</span></article>
+                <article class="stat-tile"><strong>₱78.6M</strong><span>Closed sales value</span></article>
+                <article class="stat-tile"><strong>₱2.36M</strong><span>Commission earned</span></article>
+                <article class="stat-tile"><strong>14</strong><span>Overdue follow-ups</span></article>
+            </section>
+
+            <section class="detail-section" aria-labelledby="what-i-did-heading">
+                <h2 id="what-i-did-heading">What I did</h2>
+                <ul class="work-list">
+                    <li>Built a listings sheet with automatic days on market and a 3% commission calculation for sold
+                        properties</li>
+                    <li>Set up a lead tracker with source, budget, stage, and assigned agent for 30 leads</li>
+                    <li>Added automatic follow-up status (Overdue, Due Soon, On Track) measured against an as-of date
+                    </li>
+                    <li>Color-coded statuses with conditional formatting so problem rows stand out</li>
+                    <li>Created a summary with listings by status, closed sales, and the lead pipeline by stage and
+                        source
+                    </li>
+                </ul>
+            </section>
+
+            <section class="detail-section" aria-labelledby="listings-heading">
+                <h2 id="listings-heading">Listings</h2>
+                <div class="table-container" role="region"
+                    aria-label="Listings table, scroll horizontally to see all columns" tabindex="0">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Property</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">City</th>
+                                <th scope="col">List Price</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Days Listed</th>
+                                <th scope="col">Commission</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>L-113</td>
+                                <td>Pinewood Estates, Lot 2</td>
+                                <td>Lot Only</td>
+                                <td>Davao City</td>
+                                <td>₱8,300,000</td>
+                                <td><span class="status-badge status-sold">Sold</span></td>
+                                <td>28</td>
+                                <td>₱246,630</td>
+                            </tr>
+                            <tr>
+                                <td>L-115</td>
+                                <td>Harborview Towers, Unit 17A</td>
+                                <td>Commercial</td>
+                                <td>Baguio City</td>
+                                <td>₱28,800,000</td>
+                                <td><span class="status-badge status-sold">Sold</span></td>
+                                <td>33</td>
+                                <td>₱807,120</td>
+                            </tr>
+                            <tr>
+                                <td>L-109</td>
+                                <td>Stonegate Place, Lot 46A</td>
+                                <td>House &amp; Lot</td>
+                                <td>Cebu City</td>
+                                <td>₱6,900,000</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>176</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>L-107</td>
+                                <td>Maple Grove Townhomes, Unit 15B</td>
+                                <td>Townhouse</td>
+                                <td>Davao City</td>
+                                <td>₱9,800,000</td>
+                                <td><span class="status-badge status-under-contract">Under Contract</span></td>
+                                <td>180</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>L-122</td>
+                                <td>Pinewood Estates, Block 38B</td>
+                                <td>Townhouse</td>
+                                <td>Makati City</td>
+                                <td>₱8,350,000</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>49</td>
+                                <td>-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="detail-section" aria-labelledby="follow-ups-heading">
+                <h2 id="follow-ups-heading">Lead follow-ups</h2>
+                <div class="table-container" role="region"
+                    aria-label="Lead follow-ups table, scroll horizontally to see all columns" tabindex="0">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Source</th>
+                                <th scope="col">Interested In</th>
+                                <th scope="col">Budget</th>
+                                <th scope="col">Stage</th>
+                                <th scope="col">Next Follow-up</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>C-222</td>
+                                <td>Katrina Cabanilla</td>
+                                <td>Walk-in</td>
+                                <td>Condo</td>
+                                <td>₱11,000,000</td>
+                                <td>Viewing Scheduled</td>
+                                <td>Sep 1, 2026</td>
+                                <td><span class="status-badge status-overdue">Overdue</span></td>
+                            </tr>
+                            <tr>
+                                <td>C-228</td>
+                                <td>Mylene Zamora</td>
+                                <td>Walk-in</td>
+                                <td>Lot Only</td>
+                                <td>₱12,700,000</td>
+                                <td>Negotiation</td>
+                                <td>Sep 7, 2026</td>
+                                <td><span class="status-badge status-overdue">Overdue</span></td>
+                            </tr>
+                            <tr>
+                                <td>C-211</td>
+                                <td>Cyrus Bonifacio</td>
+                                <td>Referral</td>
+                                <td>Lot Only</td>
+                                <td>₱14,700,000</td>
+                                <td>New</td>
+                                <td>Oct 3, 2026</td>
+                                <td><span class="status-badge status-due-soon">Due Soon</span></td>
+                            </tr>
+                            <tr>
+                                <td>C-203</td>
+                                <td>Renato Quizon</td>
+                                <td>Walk-in</td>
+                                <td>House &amp; Lot</td>
+                                <td>₱2,300,000</td>
+                                <td>New</td>
+                                <td>Oct 8, 2026</td>
+                                <td><span class="status-badge status-on-track">On Track</span></td>
+                            </tr>
+                            <tr>
+                                <td>C-215</td>
+                                <td>Bernadette Ocampo</td>
+                                <td>Referral</td>
+                                <td>Commercial</td>
+                                <td>₱13,700,000</td>
+                                <td>Negotiation</td>
+                                <td>Oct 11, 2026</td>
+                                <td><span class="status-badge status-on-track">On Track</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="detail-section" aria-labelledby="pipeline-heading">
+                <h2 id="pipeline-heading">Lead pipeline</h2>
+                <div class="pipeline-chart" role="list" aria-label="Lead count by pipeline stage">
+                    <div class="pipeline-row" role="listitem"><span>New</span>
+                        <div class="pipeline-track" role="img" aria-label="New: 4 leads out of 7">
+                            <div class="pipeline-fill pipeline-fill-new" style="width: 57.14%"></div>
+                        </div><strong>4</strong>
+                    </div>
+                    <div class="pipeline-row" role="listitem"><span>Contacted</span>
+                        <div class="pipeline-track" role="img" aria-label="Contacted: 6 leads out of 7">
+                            <div class="pipeline-fill pipeline-fill-contacted" style="width: 85.71%"></div>
+                        </div><strong>6</strong>
+                    </div>
+                    <div class="pipeline-row" role="listitem"><span>Viewing Scheduled</span>
+                        <div class="pipeline-track" role="img" aria-label="Viewing Scheduled: 7 leads out of 7">
+                            <div class="pipeline-fill pipeline-fill-viewing" style="width: 100%"></div>
+                        </div><strong>7</strong>
+                    </div>
+                    <div class="pipeline-row" role="listitem"><span>Negotiation</span>
+                        <div class="pipeline-track" role="img" aria-label="Negotiation: 5 leads out of 7">
+                            <div class="pipeline-fill pipeline-fill-negotiation" style="width: 71.43%"></div>
+                        </div><strong>5</strong>
+                    </div>
+                    <div class="pipeline-row" role="listitem"><span>Closed Won</span>
+                        <div class="pipeline-track" role="img" aria-label="Closed Won: 5 leads out of 7">
+                            <div class="pipeline-fill pipeline-fill-won" style="width: 71.43%"></div>
+                        </div><strong>5</strong>
+                    </div>
+                    <div class="pipeline-row" role="listitem"><span>Closed Lost</span>
+                        <div class="pipeline-track" role="img" aria-label="Closed Lost: 3 leads out of 7">
+                            <div class="pipeline-fill pipeline-fill-lost" style="width: 42.86%"></div>
+                        </div><strong>3</strong>
+                    </div>
+                </div>
+            </section>
+
+            <section class="case-study-footer-section">
+                <div class="container case-study-footer-row">
+                    <div class="project-tools case-study-tools" aria-label="Tools and formulas used">
+                        <span class="tool-tag">Excel</span>
+                        <span class="tool-tag">Formulas</span>
+                        <span class="tool-tag">Conditional formatting</span>
+                        <span class="tool-tag">Summary dashboards</span>
+                    </div>
+                    <a class="btn-more-works case-study-sheet-link"
+                        href="https://docs.google.com/spreadsheets/d/1iCEDM79G5tYc339Ao_KLdfNKdSb82ljY/edit?usp=sharing&amp;ouid=103921579475986521223&amp;rtpof=true&amp;sd=true"
+                        target="_blank" rel="noopener noreferrer">
+                        <span>View live sheet</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" aria-hidden="true">
+                            <path d="M14 3h7v7M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                        </svg>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer class="jm-footer">
+        <div class="container">
+            <div class="jm-footer-top">
+                <a href="index.html" class="jm-footer-brand">
+                    <span class="jm-footer-mark" aria-hidden="true">JM</span>
+                    <span><strong>Justine May Balbuena</strong><small>Smart Support. Creative Solutions. Better Workflows.</small></span>
+                </a>
+                <nav class="jm-footer-nav" aria-label="Footer navigation">
+                    <a href="index.html">Home</a>
+                    <a href="portfolio.html?person=justine">Portfolio</a>
+                    <a href="about.html">About Me</a>
+                </nav>
+            </div>
+            <div class="jm-footer-bottom">
+                <span>© 2026 Justine May Balbuena. All rights reserved.</span>
+                <a href="mailto:justinemaybalbuena23@gmail.com">justinemaybalbuena23@gmail.com</a>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+    <script src="particles.js"></script>
+</body>
+
+</html>

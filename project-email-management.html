@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A fictional Brightwell Studio inbox triage and email reply sample." />
+    <title>Email Management | Virtual Assistant Portfolio</title>
+    <link rel="icon" type="image/svg+xml" href="img/jm-favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/jm-brand.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #1c1530;
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            --plum: #4a1a5c;
+            --ink: #1c1530;
+            --muted: #625c70;
+            --line: #e9e5ee;
+            --urgent: #c83d50;
+            --client: #d57a25;
+            --admin: #30805d;
+            --low: #7a7d88;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            min-width: 320px;
+            margin: 0;
+        }
+
+        main {
+            display: flex;
+            flex: 1 0 auto;
+            flex-direction: column;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        .email-case-study {
+            display: flex;
+            flex: 1 0 auto;
+            flex-direction: column;
+            padding: 38px 22px 32px;
+        }
+
+        .page-shell {
+            display: flex;
+            width: min(100%, 1180px);
+            flex: 1 0 auto;
+            flex-direction: column;
+            margin: 0 auto;
+        }
+
+        .case-study-back {
+            margin-bottom: 6px;
+        }
+
+        .case-study-back:hover,
+        .case-study-back:focus-visible {
+            transform: translateY(-1px);
+        }
+
+        :focus-visible {
+            outline: 3px solid #f5c96a;
+            outline-offset: 3px;
+        }
+
+        .hero {
+            margin-bottom: 27px;
+            color: #fff;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            border-radius: 999px;
+            padding: 5px 11px;
+            background: #eef3ff;
+            color: #263757;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        h1 {
+            margin: 13px 0 7px;
+            font-size: clamp(34px, 4vw, 46px);
+            line-height: 1.12;
+            letter-spacing: 0;
+        }
+
+        .intro {
+            max-width: 760px;
+            margin: 0;
+            color: #f0eaf5;
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        .fiction-note {
+            margin: 12px 0 0;
+            color: #d9c9e1;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .priority-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .priority-card {
+            min-width: 0;
+            border-left: 4px solid var(--priority-color);
+            border-radius: 12px;
+            padding: 15px 17px 16px;
+            background: #fff;
+            box-shadow: 0 8px 22px rgba(20, 8, 29, .12);
+        }
+
+        .priority-card h2 {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin: 0 0 6px;
+            color: var(--ink);
+            font-size: 16px;
+            line-height: 1.3;
+        }
+
+        .priority-card h2 span {
+            color: var(--priority-color);
+            font-size: 14px;
+        }
+
+        .priority-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.48;
+        }
+
+        .priority-card p+p {
+            margin-top: 6px;
+            font-weight: 650;
+        }
+
+        .urgent {
+            --priority-color: var(--urgent);
+        }
+
+        .client {
+            --priority-color: var(--client);
+        }
+
+        .admin {
+            --priority-color: var(--admin);
+        }
+
+        .low {
+            --priority-color: var(--low);
+        }
+
+        .inbox-layout {
+            display: grid;
+            grid-template-columns: minmax(280px, .85fr) minmax(0, 1.55fr);
+            align-items: start;
+            gap: 20px;
+        }
+
+        .panel {
+            min-width: 0;
+            overflow: hidden;
+            border-radius: 16px;
+            background: #fff;
+            box-shadow: 0 14px 34px rgba(20, 8, 29, .16);
+        }
+
+        .panel-heading {
+            margin: 0;
+            border-bottom: 1px solid var(--line);
+            padding: 19px 22px;
+            color: var(--ink);
+            font-size: 18px;
+            line-height: 1.3;
+        }
+
+        .message-list {
+            display: grid;
+            padding: 7px;
+        }
+
+        .message-button {
+            display: block;
+            width: 100%;
+            min-width: 0;
+            border: 0;
+            border-left: 4px solid transparent;
+            border-radius: 8px;
+            padding: 13px 12px;
+            background: transparent;
+            color: var(--ink);
+            cursor: pointer;
+            text-align: left;
+            transition: background .16s ease;
+        }
+
+        .message-button:hover {
+            background: #f7f4f9;
+        }
+
+        .message-button[aria-pressed="true"] {
+            border-left-color: var(--priority-color);
+            background: #f6f2f8;
+        }
+
+        .message-button .sender-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .message-button strong {
+            overflow: hidden;
+            font-size: 14px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .priority-dot {
+            width: 9px;
+            height: 9px;
+            flex: 0 0 9px;
+            border-radius: 50%;
+            background: var(--priority-color);
+        }
+
+        .message-subject {
+            display: block;
+            overflow: hidden;
+            margin-top: 4px;
+            font-size: 13px;
+            font-weight: 650;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .message-preview {
+            display: block;
+            overflow: hidden;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 12px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .detail-content {
+            padding: 22px;
+        }
+
+        .detail-topline {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .detail-title {
+            min-width: 0;
+            margin: 0;
+            color: var(--ink);
+            font-size: 20px;
+            line-height: 1.3;
+        }
+
+        .priority-tag {
+            flex: 0 0 auto;
+            border-radius: 999px;
+            padding: 5px 10px;
+            background: color-mix(in srgb, var(--priority-color) 12%, white);
+            color: var(--priority-color);
+            font-size: 12px;
+            font-weight: 750;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .info-box {
+            min-width: 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 12px;
+            background: #fcfbfd;
+        }
+
+        .info-box h3 {
+            margin: 0 0 5px;
+            color: #716a7d;
+            font-size: 11px;
+            font-weight: 750;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+        }
+
+        .info-box p {
+            margin: 0;
+            color: var(--ink);
+            font-size: 13px;
+            line-height: 1.45;
+            overflow-wrap: anywhere;
+        }
+
+        .original-message {
+            margin: 0 0 18px;
+            border-left: 3px solid #d9c9e1;
+            padding: 1px 0 1px 14px;
+            color: #514b5e;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .original-message::before {
+            display: block;
+            margin-bottom: 4px;
+            color: #756e80;
+            content: "Original message";
+            font-size: 11px;
+            font-weight: 750;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+        }
+
+        .reply-box {
+            border: 1px solid #e4dce9;
+            border-radius: 12px;
+            padding: 15px;
+            background: #faf7fc;
+        }
+
+        .reply-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 9px;
+        }
+
+        .reply-heading h3 {
+            margin: 0;
+            color: var(--ink);
+            font-size: 14px;
+        }
+
+        .copy-button {
+            min-height: 36px;
+            border: 1px solid #5b2c69;
+            border-radius: 8px;
+            padding: 7px 11px;
+            background: #5b2c69;
+            color: #fff;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .copy-button:hover {
+            background: #42174f;
+        }
+
+        .copy-button:disabled {
+            cursor: default;
+            opacity: .8;
+        }
+
+        .reply-text {
+            margin: 0;
+            color: #383147;
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .page-footer {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px 24px;
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, .24);
+            padding-top: 30px;
+        }
+
+        .page-footer h2 {
+            grid-column: 1 / -1;
+            margin: 0;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .setup-item {
+            display: flex;
+            min-width: 0;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .setup-item strong {
+            color: #fff;
+            font-size: 20px;
+            line-height: 1.25;
+        }
+
+        .setup-item span {
+            color: #d9c9e1;
+            font-size: 12px;
+            line-height: 1.45;
+        }
+
+        @media (max-width: 680px) {
+            .page-footer {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 16px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .priority-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .inbox-layout {
+                grid-template-columns: minmax(230px, .8fr) minmax(0, 1.2fr);
+            }
+        }
+
+        @media (max-width: 680px) {
+            .email-case-study {
+                padding: 24px 15px 26px;
+            }
+
+            .priority-grid {
+                gap: 10px;
+            }
+
+            .priority-card {
+                padding: 13px 13px 14px;
+            }
+
+            .inbox-layout {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 15px;
+            }
+
+            .message-list {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .message-button {
+                padding: 11px 9px;
+            }
+
+            .detail-content {
+                padding: 17px;
+            }
+
+            .info-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        @media (max-width: 390px) {
+
+            .priority-grid,
+            .message-list {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .detail-topline,
+            .reply-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand" aria-label="Justine May home">
+                <span class="brand-logo jm-brand-mark" aria-hidden="true">JM</span>
+                <span class="brand-text jm-brand-text">Justine May</span>
+            </a>
+            <button class="mobile-toggle" aria-label="Open menu" aria-expanded="false">
+                <span></span>
+            </button>
+            <nav aria-label="Main navigation">
+                <ul class="main-nav">
+                    <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="portfolio.html?person=justine" class="nav-link">Portfolio</a></li>
+                    <li class="nav-item"><a href="about.html" class="nav-link">About Me</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="email-case-study">
+        <div class="page-shell">
+            <a class="btn btn-secondary case-study-back"
+                href="portfolio.html?person=justine&amp;category=digital-workflow"
+                aria-label="Back to Digital Workflow Support projects">&#8592; Back to projects</a>
+
+            <header class="hero">
+                <span class="eyebrow">Inbox systems</span>
+                <h1>Email Management</h1>
+                <p class="intro">A working triage system for a busy small-business inbox: every message gets a label, a
+                    response deadline, and a ready-to-send reply.</p>
+                <p class="fiction-note">Sample project for Brightwell Studio (a fictional photography business). All
+                    names and messages are made up.</p>
+            </header>
+
+            <section class="priority-grid" aria-label="Inbox priority rules">
+                <article class="priority-card urgent">
+                    <h2><span>1</span> Urgent</h2>
+                    <p>Client deadlines, payment problems, same-week bookings.</p>
+                    <p>Reply within 2 hours.</p>
+                </article>
+                <article class="priority-card client">
+                    <h2><span>2</span> Client</h2>
+                    <p>Active clients and new inquiries.</p>
+                    <p>Reply within 24 hours.</p>
+                </article>
+                <article class="priority-card admin">
+                    <h2><span>3</span> Admin</h2>
+                    <p>Invoices, receipts, vendors.</p>
+                    <p>Handled in a weekly batch.</p>
+                </article>
+                <article class="priority-card low">
+                    <h2><span>4</span> Low priority</h2>
+                    <p>Newsletters and promotions.</p>
+                    <p>Auto-archived, read on Fridays.</p>
+                </article>
+            </section>
+
+            <section class="inbox-layout" aria-label="Inbox triage sample">
+                <section class="panel" aria-labelledby="inbox-heading">
+                    <h2 class="panel-heading" id="inbox-heading">Inbox: 6 new messages</h2>
+                    <div class="message-list" id="message-list" role="group" aria-label="Choose an email to review">
+                    </div>
+                </section>
+                <section class="panel" aria-labelledby="triage-heading" aria-live="polite">
+                    <h2 class="panel-heading" id="triage-heading">Triage decision and reply</h2>
+                    <div class="detail-content" id="email-detail"></div>
+                </section>
+            </section>
+            <section class="page-footer" aria-labelledby="setup-heading">
+                <h2 id="setup-heading">Inbox system setup</h2>
+                <div class="setup-item"><strong>4</strong><span>Inbox labels</span></div>
+                <div class="setup-item"><strong>5</strong><span>Filter rules</span></div>
+                <div class="setup-item"><strong>8</strong><span>Saved reply templates</span></div>
+                <div class="setup-item"><strong>15 min</strong><span>Daily checks at 9:00 and 4:00</span></div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="jm-footer">
+        <div class="container">
+            <div class="jm-footer-top">
+                <a href="index.html" class="jm-footer-brand">
+                    <span class="jm-footer-mark" aria-hidden="true">JM</span>
+                    <span><strong>Justine May Balbuena</strong><small>Smart Support. Creative Solutions. Better Workflows.</small></span>
+                </a>
+                <nav class="jm-footer-nav" aria-label="Footer navigation">
+                    <a href="index.html">Home</a>
+                    <a href="portfolio.html?person=justine">Portfolio</a>
+                    <a href="about.html">About Me</a>
+                </nav>
+            </div>
+            <div class="jm-footer-bottom">
+                <span>© 2026 Justine May Balbuena. All rights reserved.</span>
+                <a href="mailto:justinemaybalbuena23@gmail.com">justinemaybalbuena23@gmail.com</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="particles.js"></script>
+    <script>
+        const emails = [
+            {
+                sender: 'Daniel Reyes', subject: "Need to move Saturday's shoot", preview: 'Can we move our 10am shoot to Sunday?', priority: 'Urgent', priorityClass: 'urgent',
+                rule: 'Keywords “reschedule” or “Saturday” + active booking.', target: 'Within 2 hours.', action: 'Check calendar, offer 2 open slots, update booking.',
+                original: "Hi Maya, something came up and I can't do Saturday at 10am. Can we move it to Sunday? Sorry for the short notice.",
+                reply: "Hi Daniel,\n\nThanks for letting me know. I’ll check Sunday availability and send you two open time options shortly. Once you choose one, I’ll update the booking and send a confirmation.\n\nBest,\nAlex, Office Assistant\nBrightwell Studio"
+            },
+            {
+                sender: 'Priya Shah', subject: 'Question about portrait packages', preview: 'I’m looking for a family session next month.', priority: 'Client', priorityClass: 'client',
+                rule: 'New inquiry + package or availability question.', target: 'Within 24 hours.', action: 'Send current package guide and ask preferred dates.',
+                original: 'Hello, I’m looking for a family portrait session sometime next month. Could you share your available packages and let me know what dates you have open?',
+                reply: 'Hi Priya,\n\nThanks for reaching out to Brightwell Studio. I’d be happy to help with a family session. I’ve included our session options, and I can check availability once you share two or three dates that work for you.\n\nBest,\nAlex, Office Assistant\nBrightwell Studio'
+            },
+            {
+                sender: 'Morgan Ellis', subject: 'Gallery link for our session', preview: 'Checking when our edited photos will be ready.', priority: 'Client', priorityClass: 'client',
+                rule: 'Active client + delivery-status question.', target: 'Within 24 hours.', action: 'Check the editing tracker and confirm delivery date.',
+                original: 'Hi, I wanted to check in on the gallery from our session last week. Do you have an estimated delivery date? Thank you!',
+                reply: 'Hi Morgan,\n\nThanks for checking in. I’m confirming the current edit timeline and will send you a specific gallery delivery date today.\n\nBest,\nAlex, Office Assistant\nBrightwell Studio'
+            },
+            {
+                sender: 'Lena Brooks', subject: 'Invoice for studio rental', preview: 'Attached is the invoice for last Thursday.', priority: 'Admin', priorityClass: 'admin',
+                rule: 'Vendor invoice + no urgent payment deadline.', target: 'Weekly admin batch.', action: 'Log invoice, verify amount, queue for payment review.',
+                original: 'Hi Brightwell Studio, attached is the invoice for the studio rental last Thursday. Please let me know if you need anything else.',
+                reply: 'Hi Lena,\n\nThank you for sending the invoice. I’ve received it and added it to our payment review list. We’ll follow up if any additional details are needed.\n\nBest,\nAlex, Office Assistant\nBrightwell Studio'
+            },
+            {
+                sender: 'Ethan Cole', subject: 'Receipt for print order', preview: 'Sharing the receipt for the client album prints.', priority: 'Admin', priorityClass: 'admin',
+                rule: 'Receipt or expense record + no time-sensitive request.', target: 'Weekly admin batch.', action: 'Save receipt to monthly expenses and match to order.',
+                original: 'Hi Maya, here’s the receipt for the album print order we discussed. The total was $186.40. Thanks!',
+                reply: 'Hi Ethan,\n\nThanks for sending this over. I’ve received the receipt and will match it with the album order in our monthly expense records.\n\nBest,\nAlex, Office Assistant\nBrightwell Studio'
+            },
+            {
+                sender: 'Studio Supply Weekly', subject: 'This week’s camera gear offers', preview: 'New discounts and product updates inside.', priority: 'Low priority', priorityClass: 'low',
+                rule: 'Newsletter sender + no direct client or business action.', target: 'Read on Fridays.', action: 'Auto-archive; include in Friday newsletter review.',
+                original: 'This week only: explore our latest camera accessories and subscriber deals. Browse the full collection in our online store.',
+                reply: 'No reply needed. This newsletter is auto-archived for the Friday reading batch.'
+            }
+        ];
+
+        const list = document.getElementById('message-list');
+        const detail = document.getElementById('email-detail');
+        let selectedIndex = 0;
+        let copyTimer;
+
+        function renderList() {
+            list.innerHTML = emails.map((email, index) => `
+        <button class="message-button ${email.priorityClass}" type="button" data-index="${index}" aria-pressed="${index === selectedIndex}" aria-controls="email-detail">
+          <span class="sender-row"><strong>${email.sender}</strong><span class="priority-dot" aria-label="${email.priority}"></span></span>
+          <span class="message-subject">${email.subject}</span>
+          <span class="message-preview">${email.preview}</span>
+        </button>
+      `).join('');
+        }
+
+        function renderDetail() {
+            const email = emails[selectedIndex];
+            detail.innerHTML = `
+        <div class="detail-topline">
+          <h3 class="detail-title">${email.subject}</h3>
+          <span class="priority-tag ${email.priorityClass}">${email.priority}</span>
+        </div>
+        <div class="info-grid">
+          <section class="info-box"><h3>Rule applied</h3><p>${email.rule}</p></section>
+          <section class="info-box"><h3>Reply target</h3><p>${email.target}</p></section>
+          <section class="info-box"><h3>Next action</h3><p>${email.action}</p></section>
+        </div>
+        <blockquote class="original-message">“${email.original}”</blockquote>
+        <section class="reply-box" aria-labelledby="reply-heading">
+          <div class="reply-heading"><h3 id="reply-heading">Ready-to-send reply</h3><button class="copy-button" id="copy-reply" type="button">Copy reply</button></div>
+          <p class="reply-text" id="reply-text"></p>
+        </section>
+      `;
+            document.getElementById('reply-text').textContent = email.reply;
+        }
+
+        list.addEventListener('click', event => {
+            const button = event.target.closest('.message-button');
+            if (!button) return;
+            selectedIndex = Number(button.dataset.index);
+            renderList();
+            renderDetail();
+            list.querySelector(`[data-index="${selectedIndex}"]`).focus();
+        });
+
+        detail.addEventListener('click', async event => {
+            const button = event.target.closest('#copy-reply');
+            if (!button) return;
+            const text = emails[selectedIndex].reply;
+            try {
+                await navigator.clipboard.writeText(text);
+            } catch {
+                const fallback = document.createElement('textarea');
+                fallback.value = text;
+                fallback.setAttribute('readonly', '');
+                fallback.style.position = 'fixed';
+                fallback.style.opacity = '0';
+                document.body.appendChild(fallback);
+                fallback.select();
+                document.execCommand('copy');
+                fallback.remove();
+            }
+            button.textContent = 'Copied';
+            button.disabled = true;
+            clearTimeout(copyTimer);
+            copyTimer = setTimeout(() => {
+                const currentButton = document.getElementById('copy-reply');
+                if (currentButton) {
+                    currentButton.textContent = 'Copy reply';
+                    currentButton.disabled = false;
+                }
+            }, 1600);
+        });
+
+        renderList();
+        renderDetail();
+    </script>
+</body>
+
+</html>
